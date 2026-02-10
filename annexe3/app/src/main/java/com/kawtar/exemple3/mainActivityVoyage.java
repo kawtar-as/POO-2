@@ -20,9 +20,10 @@ public class mainActivityVoyage extends AppCompatActivity {
     Ecouteur ec;
 
     ImageButton avion, hotel;
-    TextView txt1,txt2 ;
+    TextView txt1,txt2 , total;
     int compteur1 =0, compteur2=0;
     Button boutton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class mainActivityVoyage extends AppCompatActivity {
         txt1 = findViewById(R.id.text1);
         txt2 = findViewById(R.id.textt2);
         boutton = findViewById(R.id.b);
+        total = findViewById(R.id.total);
 
         ec = new Ecouteur();
         avion.setOnClickListener(ec);
@@ -54,17 +56,17 @@ public class mainActivityVoyage extends AppCompatActivity {
             Commande c = new Commande();
             if(source == avion){
                 compteur1+=1;
-                txt1.setText(compteur1);
+                txt1.setText(compteur1 +"");
             }
             else{
                 compteur2+=1;
-                txt2.setText(compteur2);
+                txt2.setText(compteur2+"");
             }
 
             if(source == boutton){
                 double t = c.grandTotal();
                 DecimalFormat format = new DecimalFormat("0.00");
-                boutton.setText(format.format(t));
+                total.setText(format.format(t));
             }
         }
     }

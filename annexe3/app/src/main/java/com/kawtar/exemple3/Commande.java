@@ -1,14 +1,15 @@
 package com.kawtar.exemple3;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class Commande {
 
-    private Vector<Produit> listeCommande;
+    private ArrayList<Produit> listeCommande;
 
     public Commande ( )
     {
-        listeCommande = new Vector();
+        listeCommande = new ArrayList();
     }
 
     public void ajouterProduit ( Produit p )
@@ -26,21 +27,21 @@ public class Commande {
 	return total;
     }
 
-    public double taxes(double montant)
+    public double taxes()
     {
-        double taxes = 0;
+        double taxes = total();
   
 	// compléter : montant des taxes sur le total de la commande
-         montant=0;
+
         // tps sur le montant avant taxes ( 5% )
-        double tps = montant *5/100;
+        double tps = taxes *0.05;
         //tvq sur le montant avant taxes ( 9.975% )
-        double tvq = montant * 9.975 /100;
+        double tvq = taxes *0.09975;
         // taxes total = tps + tvq
         taxes = tps + tvq;
 	
 
-        return taxes;
+        return tps +tvq;
     }
 
     public double grandTotal(){
@@ -48,7 +49,7 @@ public class Commande {
 	double grTotal = 0;
 	
 	// compléter
-        grTotal+=total()  + taxes(total());
+        grTotal+=total()  + taxes();
 
 	return grTotal;
 	
