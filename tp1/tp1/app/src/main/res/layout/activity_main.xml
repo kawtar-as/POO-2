@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:backgroundTint="#FFEB3B"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -15,70 +16,97 @@
         android:layout_weight="1">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/palette"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button6"
-                android:layout_width="match_parent"
+                android:id="@+id/vert"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                android:text="Button" />
+                android:layout_gravity="center_vertical"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="10dp"
+                android:backgroundTint="#4CAF50" />
+
 
             <Button
-                android:id="@+id/button7"
-                android:layout_width="match_parent"
+                android:id="@+id/rouge"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                android:text="Button" />
+                android:layout_gravity="center_vertical"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="10dp"
+                android:backgroundTint="#E70B0B" />
 
             <Button
-                android:id="@+id/button8"
-                android:layout_width="wrap_content"
+                android:id="@+id/noir"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="10dp"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:backgroundTint="@color/black" />
 
             <Button
-                android:id="@+id/button9"
-                android:layout_width="wrap_content"
+                android:id="@+id/bleu"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="10dp"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:backgroundTint="#3F51B5" />
 
             <Button
-                android:id="@+id/button10"
-                android:layout_width="wrap_content"
+                android:id="@+id/blanc"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="10dp"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:backgroundTint="@color/white" />
 
             <Button
-                android:id="@+id/button11"
-                android:layout_width="wrap_content"
+                android:id="@+id/jaune"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="10dp"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:backgroundTint="#FFEB3B" />
 
             <Button
-                android:id="@+id/button12"
-                android:layout_width="wrap_content"
+                android:id="@+id/orange"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="10dp"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:backgroundTint="#FF5722" />
 
             <Button
-                android:id="@+id/button13"
-                android:layout_width="wrap_content"
+                android:id="@+id/rose"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="10dp"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:backgroundTint="#E62C6A" />
         </LinearLayout>
     </HorizontalScrollView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/dessin"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5">
+        android:layout_weight="6">
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -88,9 +116,10 @@
         android:layout_weight="1">
 
         <LinearLayout
+            android:id="@+id/outils"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/imageButton"
@@ -98,18 +127,21 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/cercle" />
+
             <ImageButton
                 android:id="@+id/imageButton7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/rectangle" />
+
             <ImageButton
                 android:id="@+id/imageButton10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/triangle" />
+
             <ImageButton
                 android:id="@+id/imageButton9"
                 android:layout_width="wrap_content"
@@ -151,6 +183,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/undo" />
+
             <ImageButton
                 android:id="@+id/imageButton8"
                 android:layout_width="wrap_content"
