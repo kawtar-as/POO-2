@@ -1,0 +1,18 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Annexe7c" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+         <item name="colorPrimary">@color/hotgreen</item>
+
+         <item name="colorSecondary">@color/pink</item>
+        <item name="colorOnPrimary">@color/pink</item>
+
+        <item name="android:textViewStyle">@style/monStyle</item>
+    </style>
+    <style name="monStyle" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textColor"></item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="Theme.Annexe7c" parent="Base.Theme.Annexe7c" />
+</resources>
