@@ -29,7 +29,7 @@
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginVertical="10dp"
                 android:backgroundTint="#4CAF50"
-                android:tag="vert" />
+                android:tag="#4CAF50" />
 
 
             <Button
@@ -40,7 +40,7 @@
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginVertical="10dp"
                 android:backgroundTint="#E70B0B"
-                android:tag="rouge" />
+                android:tag="#E70B0B" />
 
             <Button
                 android:id="@+id/noir"
@@ -51,7 +51,7 @@
                 android:layout_marginVertical="10dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/black"
-                android:tag="noir" />
+                android:tag="#FF000000" />
 
             <Button
                 android:id="@+id/bleu"
@@ -62,7 +62,7 @@
                 android:layout_marginVertical="10dp"
                 android:layout_weight="1"
                 android:backgroundTint="#3F51B5"
-                android:tag="bleu" />
+                android:tag="#3F51B5" />
 
             <Button
                 android:id="@+id/blanc"
@@ -73,7 +73,7 @@
                 android:layout_marginVertical="10dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/white"
-                android:tag="blanc" />
+                android:tag="# FFFFFFFF" />
 
             <Button
                 android:id="@+id/jaune"
@@ -84,7 +84,7 @@
                 android:layout_marginVertical="10dp"
                 android:layout_weight="1"
                 android:backgroundTint="#FFEB3B"
-                android:tag="jaune" />
+                android:tag="#FFEB3B" />
 
             <Button
                 android:id="@+id/orange"
@@ -95,7 +95,7 @@
                 android:layout_marginVertical="10dp"
                 android:layout_weight="1"
                 android:backgroundTint="#FF5722"
-                android:tag="orange" />
+                android:tag="#FF5722" />
 
             <Button
                 android:id="@+id/rose"
@@ -106,7 +106,7 @@
                 android:layout_marginVertical="10dp"
                 android:layout_weight="1"
                 android:backgroundTint="#E62C6A"
-                android:tag="rose" />
+                android:tag="#E62C6A" />
         </LinearLayout>
     </HorizontalScrollView>
 
