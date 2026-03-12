@@ -31,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
 //    Button vert,rouge,rose,jaune,orange,blanc,noir,bleu;
     LinearLayout palette,outils;
     Paint crayon,crayonActuel;
-    Path path;
-    ArrayList<Path>paths;
+    Forme path;
+    ArrayList<Forme>paths;
     ArrayList<Paint>crayons;
     Point depart = new Point();
     Point arrivee = new Point();
@@ -85,9 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 depart.x = (int) event.getX();
                 depart.y = (int) event.getY();
                 t.add(depart);
-//                t.getP().moveTo(depart.x,depart.y);
-                // je cree un nv crayon
-                // pour que les couleurs des traits qu on a fait avant ne changent pas tous
+
 
             }
             else if(event.getAction() == event.ACTION_MOVE){
@@ -101,13 +99,14 @@ public class MainActivity extends AppCompatActivity {
 
                 depart.x = (int) event.getX();
                 depart.y = (int) event.getY();
-                paths.add(t.getP());
+                paths.add(t);
             }
             return true;
         }
         @Override
         public void onClick(View v) {
                 System.out.println("allo");
+
                 // on get le tag ou on a mis la valeur de la couleur en hexa
                color = v.getTag().toString();
                // on converti en couleur de android
@@ -122,27 +121,31 @@ public class MainActivity extends AppCompatActivity {
             super(context);
             // ici on change background/ les trucs de crayon
             crayon = new Paint(Paint.ANTI_ALIAS_FLAG);
-            path = new Path();
+            crayon.setColor(Color.BLACK);
+//            path = new Path();
             paths = new ArrayList<>();
             crayons = new ArrayList<>();
-            crayon.setColor(Color.BLACK);// par défaut
+            crayon.setStrokeWidth(width);
             crayon.setStyle(Paint.Style.STROKE);
-            crayon.setStrokeWidth(15);
 
         }
 
         @Override
         protected void onDraw(@NonNull Canvas canvas) {
             super.onDraw(canvas);
+            if(path!= null)  path.dessiner(canvas);
+            if(paths!= null){
+
+                for (int i = 0 ; i < paths.size() ; i++){
+                    // on dessine chaque path dans la liste  avec un crayon choisi
+    //                canvas.drawPath(paths.get(i),crayons.get(i));
+                    // je change la couleur du crayon
+    //                c.drawpath avec lepath que j ai
+    //                canvas.drawPath(t.getP(),crayon);
+                   paths.get(i).dessiner(canvas);
 
 
-            for (int i = 0 ; i < paths.size() ; i++){
-                // on dessine chaque path dans la liste  avec un crayon choisi
-//                canvas.drawPath(paths.get(i),crayons.get(i));
-                // je change la couleur du crayon
-//                c.drawpath avec lepath que j ai
-                canvas.drawPath(t.getP(),crayon);
-
+                }
             }
 
 

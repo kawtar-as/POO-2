@@ -18,6 +18,7 @@ public abstract class Forme {
     private int couleur;
     private int largeur;
 
+
     public Forme( int couleur, int largeur) {
 
         this.couleur = couleur;
