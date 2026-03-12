@@ -32,13 +32,13 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout palette,outils;
     Paint crayon,crayonActuel;
     Path path;
-    Canvas canvas;
     ArrayList<Path>paths;
     ArrayList<Paint>crayons;
     Point depart = new Point();
     Point arrivee = new Point();
     String color;
-
+    int width = 15;
+    TraceLibre t;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,32 +78,30 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             // si on dessine libre
-
-
             if( event.getAction() == event.ACTION_DOWN){
-                path= new Path();
-
+                System.out.println(color);
+             t = new TraceLibre(Color.parseColor(color),width);
                 //garder en mémoire le départ
                 depart.x = (int) event.getX();
                 depart.y = (int) event.getY();
-                path.moveTo(depart.x,depart.y);
+                t.add(depart);
+//                t.getP().moveTo(depart.x,depart.y);
                 // je cree un nv crayon
                 // pour que les couleurs des traits qu on a fait avant ne changent pas tous
-                Paint c = new Paint(crayon);
-                crayons.add(c);
-                paths.add(path);
+
             }
             else if(event.getAction() == event.ACTION_MOVE){
                 arrivee.x = (int) event.getX();
                 arrivee.y = (int) event.getY();
-                path.lineTo(arrivee.x, arrivee.y);
+                t.tracer(arrivee);
+//                t.getP().lineTo(arrivee.x, arrivee.y);
                 v.invalidate();
 
             } else if (event.getAction() == event.ACTION_UP) {
 
                 depart.x = (int) event.getX();
                 depart.y = (int) event.getY();
-
+                paths.add(t.getP());
             }
             return true;
         }
@@ -114,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
                color = v.getTag().toString();
                // on converti en couleur de android
                crayon.setColor(Color.parseColor(color)) ;
-
 
         }
 
@@ -132,17 +129,25 @@ public class MainActivity extends AppCompatActivity {
             crayon.setStyle(Paint.Style.STROKE);
             crayon.setStrokeWidth(15);
 
-
         }
 
         @Override
         protected void onDraw(@NonNull Canvas canvas) {
             super.onDraw(canvas);
+
+
             for (int i = 0 ; i < paths.size() ; i++){
                 // on dessine chaque path dans la liste  avec un crayon choisi
-                canvas.drawPath(paths.get(i),crayons.get(i));
+//                canvas.drawPath(paths.get(i),crayons.get(i));
+                // je change la couleur du crayon
+//                c.drawpath avec lepath que j ai
+                canvas.drawPath(t.getP(),crayon);
+
             }
-            canvas.drawPath(path,crayon);
+
+
+
+//            canvas.drawPath(path,crayon);
         }
     }
 
