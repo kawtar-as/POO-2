@@ -35,4 +35,6 @@ public abstract class Forme {
     }
 
     public abstract void dessiner(Canvas canvas);
+
+
 }

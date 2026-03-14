@@ -19,6 +19,7 @@
             android:id="@+id/palette"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#B4ADAD"
             android:orientation="horizontal">
 
             <Button
@@ -34,7 +35,7 @@
 
             <Button
                 android:id="@+id/rouge"
-                android:layout_width="36dp"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginHorizontal="10dp"

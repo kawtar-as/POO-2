@@ -1,10 +1,10 @@
 package com.kawtar.tp1;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -31,14 +31,17 @@ public class MainActivity extends AppCompatActivity {
 //    Button vert,rouge,rose,jaune,orange,blanc,noir,bleu;
     LinearLayout palette,outils;
     Paint crayon,crayonActuel;
-    Forme path;
+    Forme formeEnCours;
     ArrayList<Forme>paths;
     ArrayList<Paint>crayons;
     Point depart = new Point();
     Point arrivee = new Point();
-    String color;
+    String color,outilActuel;
+    int couleurFond;
     int width = 15;
     TraceLibre t;
+    Bitmap bitmap;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,59 +74,109 @@ public class MainActivity extends AppCompatActivity {
 
         surface.setOnTouchListener(ec);
         dessin.addView(surface);
+        paths = new ArrayList<>();
     }
+
 
     private class Ecouteur implements View.OnClickListener, View.OnTouchListener{
         // appuie sur la surface
+        Bitmap image;
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            // si on dessine libre
+            if (outilActuel == null) outilActuel = "tracer libre";
             if( event.getAction() == event.ACTION_DOWN){
-                System.out.println(color);
-             t = new TraceLibre(Color.parseColor(color),width);
                 //garder en mémoire le départ
                 depart.x = (int) event.getX();
                 depart.y = (int) event.getY();
-                t.add(depart);
-
+            // si on dessine libre
+                if(outilActuel.equals("tracer libre") ){
+                    t = new TraceLibre(Color.parseColor(color),width);
+                }
+                else if (outilActuel.equals("efface")){
+                    t = new TraceLibre(couleurFond,width);
+                }
+                else if(outilActuel.equals("pipette")){
+                    int x = (int)(event.getX());
+                    int y = (int)(event.getY());
+                   image = surface.getBitmapImage() ;
+                   int couleurP = image.getPixel(x,y);// renvoie entier couleur ou on a clicker
+                    color= String.format("#%06X", (0xFFFFFF & couleurP));
+                    outilActuel="tracer libre";
+                    t = new TraceLibre(Color.parseColor(color),width);
+                }
+                else if(outilActuel.equals("pot")){
+                    System.out.println("hello");
+                    couleurFond = Color.parseColor(color);
+                    t = null;
+                    v.invalidate();
+                }
+                if (t != null) t.add(depart);
 
             }
             else if(event.getAction() == event.ACTION_MOVE){
-                arrivee.x = (int) event.getX();
-                arrivee.y = (int) event.getY();
-                t.tracer(arrivee);
-//                t.getP().lineTo(arrivee.x, arrivee.y);
-                v.invalidate();
+                    arrivee.x = (int) event.getX();
+                    arrivee.y = (int) event.getY();
+                    t.tracer(arrivee);
+                    v.invalidate();
 
             } else if (event.getAction() == event.ACTION_UP) {
 
                 depart.x = (int) event.getX();
                 depart.y = (int) event.getY();
                 paths.add(t);
+                t = null; // vider le trait
+                v.invalidate();
             }
             return true;
         }
         @Override
         public void onClick(View v) {
-                System.out.println("allo");
+            // boutton effacer
+            if(v == outils.getChildAt(5)){
+                outilActuel = "efface";
+                return;
 
+            }
+            //boutton pipette
+            if(v == outils.getChildAt(10)){
+                outilActuel = "pipette";
+                return;
+
+            }
+            if(v == outils.getChildAt(3)){
+                System.out.println("hello popo");
+                outilActuel = "pot";
+                return;
+
+            }
+            // boutton pot de peinture
+            outilActuel = "tracer libre";
+            if(v!=null) {
                 // on get le tag ou on a mis la valeur de la couleur en hexa
-               color = v.getTag().toString();
-               // on converti en couleur de android
-               crayon.setColor(Color.parseColor(color)) ;
+                color = v.getTag().toString();
+                // on converti en couleur de android
+                crayon.setColor(Color.parseColor(color));
+            }
+
 
         }
 
     }
     private class SurfaceDessin extends View {
+        public Bitmap getBitmapImage() {
 
+            this.buildDrawingCache();
+            bitmap = Bitmap.createBitmap(this.getDrawingCache());
+            this.destroyDrawingCache();
+
+            return bitmap;
+        }
         public SurfaceDessin(Context context){
             super(context);
             // ici on change background/ les trucs de crayon
             crayon = new Paint(Paint.ANTI_ALIAS_FLAG);
-            crayon.setColor(Color.BLACK);
-//            path = new Path();
-            paths = new ArrayList<>();
+            color = "#000000";
+            couleurFond = Color.WHITE;
             crayons = new ArrayList<>();
             crayon.setStrokeWidth(width);
             crayon.setStyle(Paint.Style.STROKE);
@@ -133,24 +186,17 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onDraw(@NonNull Canvas canvas) {
             super.onDraw(canvas);
-            if(path!= null)  path.dessiner(canvas);
+            canvas.drawColor(couleurFond);
+            if(t!= null)  t.dessiner(canvas);
             if(paths!= null){
 
                 for (int i = 0 ; i < paths.size() ; i++){
-                    // on dessine chaque path dans la liste  avec un crayon choisi
-    //                canvas.drawPath(paths.get(i),crayons.get(i));
-                    // je change la couleur du crayon
-    //                c.drawpath avec lepath que j ai
-    //                canvas.drawPath(t.getP(),crayon);
                    paths.get(i).dessiner(canvas);
 
 
                 }
             }
 
-
-
-//            canvas.drawPath(path,crayon);
         }
     }
 
