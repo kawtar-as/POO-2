@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
@@ -37,10 +38,13 @@ public class MainActivity extends AppCompatActivity {
     Point depart = new Point();
     Point arrivee = new Point();
     String color,outilActuel;
-    int couleurFond;
+    int couleurFond ;
     int width = 15;
     TraceLibre t;
+    Rectangle r;
+    Cercle c;
     Bitmap bitmap;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +112,18 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println("hello");
                     couleurFond = Color.parseColor(color);
                     t = null;
-                    v.invalidate();
+                    surface.invalidate();
+                }
+                else if(outilActuel.equals("taille_trait")){
+                    // a faire jsp
+                }
+                else if(outilActuel.equals("rectangle")){
+                    r = new Rectangle(Color.parseColor(color),width,depart,arrivee);
+                    r.add(depart);
+                }
+                else if(outilActuel.equals("cercle")){
+                    c = new Cercle(Color.parseColor(color),width);
+                    c.add(depart);
                 }
                 if (t != null) t.add(depart);
 
@@ -116,16 +131,36 @@ public class MainActivity extends AppCompatActivity {
             else if(event.getAction() == event.ACTION_MOVE){
                     arrivee.x = (int) event.getX();
                     arrivee.y = (int) event.getY();
+                if (t != null) {
                     t.tracer(arrivee);
                     v.invalidate();
+                }
+                if(r!= null) {
+                    r.tracer(arrivee);
+                    v.invalidate();
+                }
+                if(c!= null) {
+                    c.tracer(arrivee);
+                    v.invalidate();
+                }
 
             } else if (event.getAction() == event.ACTION_UP) {
-
-                depart.x = (int) event.getX();
-                depart.y = (int) event.getY();
-                paths.add(t);
-                t = null; // vider le trait
-                v.invalidate();
+                if(t!=null) {
+                    depart.x = (int) event.getX();
+                    depart.y = (int) event.getY();
+                    paths.add(t);
+                    t = null; // vider le trait
+                    v.invalidate();
+                }
+                if(r!=null){
+                    paths.add(r);
+                    r=null;
+                    v.invalidate();
+                }if(c!=null){
+                    paths.add(c);
+                    c=null;
+                    v.invalidate();
+                }
             }
             return true;
         }
@@ -146,8 +181,25 @@ public class MainActivity extends AppCompatActivity {
             if(v == outils.getChildAt(3)){
                 System.out.println("hello popo");
                 outilActuel = "pot";
+                if (color != null) {
+                    couleurFond = Color.parseColor(color);
+                    surface.invalidate();
+                }
                 return;
 
+            }
+            if(v == outils.getChildAt(6)){
+                outilActuel = "taille_trait";
+                return;
+
+            } if(v == outils.getChildAt(1)){
+                outilActuel = "rectangle";
+                return;
+
+            }
+            if(v==outils.getChildAt(0)){
+                outilActuel ="cercle";
+                return;
             }
             // boutton pot de peinture
             outilActuel = "tracer libre";
@@ -187,6 +239,8 @@ public class MainActivity extends AppCompatActivity {
         protected void onDraw(@NonNull Canvas canvas) {
             super.onDraw(canvas);
             canvas.drawColor(couleurFond);
+            if(r!=null) r.dessiner(canvas);
+            if(c!=null) c.dessiner(canvas);
             if(t!= null)  t.dessiner(canvas);
             if(paths!= null){
 
