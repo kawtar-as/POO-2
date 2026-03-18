@@ -23,7 +23,7 @@ public class TraceLibre extends Forme {
     Paint paint = new Paint( Paint.ANTI_ALIAS_FLAG);
     paint.setColor(getCouleur());
     paint.setStrokeWidth(getLargeur());
-   paint.setStyle(Paint.Style.STROKE);
+    paint.setStyle(Paint.Style.STROKE);
     canvas.drawPath(p,paint);
    }
     public void add(Point depart){

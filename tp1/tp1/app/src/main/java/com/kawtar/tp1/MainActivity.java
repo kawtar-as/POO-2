@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     ConstraintLayout dessin;
 //    Button vert,rouge,rose,jaune,orange,blanc,noir,bleu;
     LinearLayout palette,outils;
-    Paint crayon,crayonActuel;
+    Paint crayon;
     Forme formeEnCours;
     ArrayList<Forme>paths;
     ArrayList<Paint>crayons;
@@ -39,11 +39,12 @@ public class MainActivity extends AppCompatActivity {
     Point arrivee = new Point();
     String color,outilActuel;
     int couleurFond ;
-    int width = 15;
+    int width = 15,  compteurSommet = 0;
     TraceLibre t;
     Rectangle r;
     Cercle c;
     Bitmap bitmap;
+    Triangle tr;
 
 
     @Override
@@ -125,6 +126,23 @@ public class MainActivity extends AppCompatActivity {
                     c = new Cercle(Color.parseColor(color),width);
                     c.add(depart);
                 }
+                else if(outilActuel.equals("triangle")){
+
+                    if(compteurSommet == 0){
+                    tr = new Triangle(Color.parseColor(color),width);
+                        tr.add(depart);
+                        compteurSommet++;
+                    }else if(compteurSommet ==1){
+                        tr.tracer(depart);
+                        compteurSommet++;
+                    }else if(compteurSommet == 2){
+                        tr.tracer2(depart);
+                        compteurSommet=0;
+                        paths.add(tr);
+                        tr=null;
+                        v.invalidate();
+                    }
+                }
                 if (t != null) t.add(depart);
 
             }
@@ -141,6 +159,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if(c!= null) {
                     c.tracer(arrivee);
+                    v.invalidate();
+                }
+                if(tr != null && compteurSommet ==2){
                     v.invalidate();
                 }
 
@@ -161,6 +182,7 @@ public class MainActivity extends AppCompatActivity {
                     c=null;
                     v.invalidate();
                 }
+
             }
             return true;
         }
@@ -201,6 +223,10 @@ public class MainActivity extends AppCompatActivity {
                 outilActuel ="cercle";
                 return;
             }
+            if(v==outils.getChildAt(2)){
+                outilActuel ="triangle";
+                return;
+            }
             // boutton pot de peinture
             outilActuel = "tracer libre";
             if(v!=null) {
@@ -239,6 +265,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onDraw(@NonNull Canvas canvas) {
             super.onDraw(canvas);
             canvas.drawColor(couleurFond);
+            if(tr!=null) tr.dessiner(canvas);
             if(r!=null) r.dessiner(canvas);
             if(c!=null) c.dessiner(canvas);
             if(t!= null)  t.dessiner(canvas);
