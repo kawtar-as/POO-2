@@ -29,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
     Ecouteur ec;
     LinearLayout main;
     ConstraintLayout dessin;
-//    Button vert,rouge,rose,jaune,orange,blanc,noir,bleu;
+    DialogTrait dialog;
+
     LinearLayout palette,outils;
     Paint crayon;
     Forme formeEnCours;
@@ -39,12 +40,14 @@ public class MainActivity extends AppCompatActivity {
     Point arrivee = new Point();
     String color,outilActuel;
     int couleurFond ;
-    int width = 15,  compteurSommet = 0;
+    int width = 10,  compteurSommet = 0;
+    public void changerWidth(int largeur){this.width = largeur;}
     TraceLibre t;
     Rectangle r;
     Cercle c;
     Bitmap bitmap;
     Triangle tr;
+    Efface e;
 
 
     @Override
@@ -66,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         ec = new Ecouteur();
         surface= new SurfaceDessin(this);
         formeRdo = new ArrayList<>();
-
+        dialog = new DialogTrait(this);
         //2 eme étape: parcourir chaque boutton pour mettre un écouteur
             // pour les bouttons
         for(int i= 0; i <palette.getChildCount();i++){
@@ -100,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                     t = new TraceLibre(Color.parseColor(color),width);
                 }
                 else if (outilActuel.equals("efface")){
-                    t = new TraceLibre(couleurFond,width);
+                    e = new Efface(couleurFond,width);
                 }
                 else if(outilActuel.equals("pipette")){
                     int x = (int)(event.getX());
@@ -116,9 +119,6 @@ public class MainActivity extends AppCompatActivity {
                     couleurFond = Color.parseColor(color);
                     t = null;
                     surface.invalidate();
-                }
-                else if(outilActuel.equals("taille_trait")){
-                    // a faire jsp
                 }
                 else if(outilActuel.equals("rectangle")){
                     r = new Rectangle(Color.parseColor(color),width,depart,arrivee);
@@ -149,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 if (t != null) t.add(depart);
+                if (e != null) e.add(depart);
 
             }
             else if(event.getAction() == event.ACTION_MOVE){
@@ -156,6 +157,9 @@ public class MainActivity extends AppCompatActivity {
                     arrivee.y = (int) event.getY();
                 if (t != null) {
                     t.tracer(arrivee);
+                    v.invalidate();
+                }  if (e != null) {
+                    e.tracer(arrivee);
                     v.invalidate();
                 }
                 if(r!= null) {
@@ -176,6 +180,12 @@ public class MainActivity extends AppCompatActivity {
                     depart.y = (int) event.getY();
                     paths.add(t);
                     t = null; // vider le trait
+                    v.invalidate();
+                } if(e!=null) {
+                    depart.x = (int) event.getX();
+                    depart.y = (int) event.getY();
+                    paths.add(e);
+                    e = null; // vider le trait
                     v.invalidate();
                 }
                 if(r!=null){
@@ -200,12 +210,12 @@ public class MainActivity extends AppCompatActivity {
 
             }
             //boutton pipette
-            if(v == outils.getChildAt(10)){
+            else if(v == outils.getChildAt(10)){
                 outilActuel = "pipette";
                 return;
 
             }
-            if(v == outils.getChildAt(3)){
+            else if(v == outils.getChildAt(3)){
                 System.out.println("hello popo");
                 outilActuel = "pot";
                 if (color != null) {
@@ -215,34 +225,45 @@ public class MainActivity extends AppCompatActivity {
                 return;
 
             }
-            if(v == outils.getChildAt(6)){
+           else  if(v == outils.getChildAt(6)){
                 outilActuel = "taille_trait";
-                return;
+                dialog.show();
 
-            } if(v == outils.getChildAt(1)){
+
+            }else  if(v == outils.getChildAt(1)){
                 outilActuel = "rectangle";
                 return;
 
             }
-            if(v==outils.getChildAt(0)){
+           else  if(v == outils.getChildAt(0)){
                 outilActuel ="cercle";
                 return;
             }
-            if(v==outils.getChildAt(2)){
+           else  if(v==outils.getChildAt(2)){
                 outilActuel ="triangle";
                 return;
-            }  if(v==outils.getChildAt(7)){
-                outilActuel ="undo";
-                if (!paths.isEmpty()) {
-                    formeRdo.add(paths.get(paths.size()-1));
-                    paths.remove(paths.size()-1);
-                    surface.invalidate();
-                }
-                return;
-            }
+           }
+           else  if(v == outils.getChildAt(8) ){
+                System.out.println("hello popo");
+                outilActuel = "undo";
+                    if (paths != null) {
+                        formeRdo.add(paths.get(paths.size() - 1));
+                        paths.remove(paths.size() - 1);
+                        surface.invalidate();
+                    }
+          }
+           else if (v == outils.getChildAt(9)){
+               outilActuel = "redo";
+               if(formeRdo!=null){
+                   surface.invalidate();
+               }
+
+           }
+
             // boutton pot de peinture
             outilActuel = "tracer libre";
-            if(v!=null) {
+
+            if(v instanceof  Button) { // ajouter le truc de crayon aussi
                 // on get le tag ou on a mis la valeur de la couleur en hexa
                 color = v.getTag().toString();
                 // on converti en couleur de android
@@ -279,6 +300,7 @@ public class MainActivity extends AppCompatActivity {
             super.onDraw(canvas);
             canvas.drawColor(couleurFond);
             if(tr!=null) tr.dessiner(canvas);
+            if(e!=null) e.dessiner(canvas);
             if(r!=null) r.dessiner(canvas);
             if(c!=null) c.dessiner(canvas);
             if(t!= null)  t.dessiner(canvas);
