@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout palette,outils;
     Paint crayon;
     Forme formeEnCours;
-    ArrayList<Forme>paths;
+    ArrayList<Forme>paths,formeRdo;
     ArrayList<Paint>crayons;
     Point depart = new Point();
     Point arrivee = new Point();
@@ -65,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
         // 1 ere etape
         ec = new Ecouteur();
         surface= new SurfaceDessin(this);
+        formeRdo = new ArrayList<>();
+
         //2 eme étape: parcourir chaque boutton pour mettre un écouteur
             // pour les bouttons
         for(int i= 0; i <palette.getChildCount();i++){
@@ -126,6 +128,9 @@ public class MainActivity extends AppCompatActivity {
                     c = new Cercle(Color.parseColor(color),width);
                     c.add(depart);
                 }
+//                else if(outilActuel.equals("undo")) {
+//
+//                }
                 else if(outilActuel.equals("triangle")){
 
                     if(compteurSommet == 0){
@@ -225,6 +230,14 @@ public class MainActivity extends AppCompatActivity {
             }
             if(v==outils.getChildAt(2)){
                 outilActuel ="triangle";
+                return;
+            }  if(v==outils.getChildAt(7)){
+                outilActuel ="undo";
+                if (!paths.isEmpty()) {
+                    formeRdo.add(paths.get(paths.size()-1));
+                    paths.remove(paths.size()-1);
+                    surface.invalidate();
+                }
                 return;
             }
             // boutton pot de peinture
