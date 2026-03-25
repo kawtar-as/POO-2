@@ -128,9 +128,7 @@ public class MainActivity extends AppCompatActivity {
                     c = new Cercle(Color.parseColor(color),width);
                     c.add(depart);
                 }
-//                else if(outilActuel.equals("undo")) {
-//
-//                }
+
                 else if(outilActuel.equals("triangle")){
 
                     if(compteurSommet == 0){
@@ -255,15 +253,20 @@ public class MainActivity extends AppCompatActivity {
            else if (v == outils.getChildAt(9)){
                outilActuel = "redo";
                if(formeRdo!=null){
+                   paths.add(formeRdo.get(formeRdo.size()-1));
+                   formeRdo.remove(formeRdo.size()-1);
                    surface.invalidate();
                }
 
            }
-
+            else if(v == outils.getChildAt(4)){
+                outilActuel = "tracer libre";
+                return;
+            }
             // boutton pot de peinture
             outilActuel = "tracer libre";
 
-            if(v instanceof  Button) { // ajouter le truc de crayon aussi
+            if(v instanceof  Button )  { // ajouter le truc de crayon aussi
                 // on get le tag ou on a mis la valeur de la couleur en hexa
                 color = v.getTag().toString();
                 // on converti en couleur de android
