@@ -42,12 +42,12 @@ public class MainActivity extends AppCompatActivity {
     int couleurFond ;
     int width = 10,  compteurSommet = 0;
     public void changerWidth(int largeur){this.width = largeur;}
-    TraceLibre t;
-    Rectangle r;
-    Cercle c;
+//    TraceLibre t;
+//    Rectangle r;
+//    Cercle c;
     Bitmap bitmap;
-    Triangle tr;
-    Efface e;
+//    Triangle tr;
+//    Efface e;
 
 
     @Override
@@ -96,106 +96,50 @@ public class MainActivity extends AppCompatActivity {
             if (outilActuel == null) outilActuel = "tracer libre";
             if( event.getAction() == event.ACTION_DOWN){
                 //garder en mémoire le départ
-                depart.x = (int) event.getX();
-                depart.y = (int) event.getY();
+            depart.x = (int) event.getX();
+            depart.y = (int) event.getY();
             // si on dessine libre
-                if(outilActuel.equals("tracer libre") ){
-                    t = new TraceLibre(Color.parseColor(color),width);
-                }
-                else if (outilActuel.equals("efface")){
-                    e = new Efface(couleurFond,width);
-                }
-                else if(outilActuel.equals("pipette")){
-                    int x = (int)(event.getX());
-                    int y = (int)(event.getY());
-                   image = surface.getBitmapImage() ;
-                   int couleurP = image.getPixel(x,y);// renvoie entier couleur ou on a clicker
-                    color= String.format("#%06X", (0xFFFFFF & couleurP));
-                    outilActuel="tracer libre";
-                    t = new TraceLibre(Color.parseColor(color),width);
-                }
-                else if(outilActuel.equals("pot")){
-                    System.out.println("hello");
-                    couleurFond = Color.parseColor(color);
-                    t = null;
-                    surface.invalidate();
-                }
-                else if(outilActuel.equals("rectangle")){
-                    r = new Rectangle(Color.parseColor(color),width,depart,arrivee);
-                    r.add(depart);
-                }
-                else if(outilActuel.equals("cercle")){
-                    c = new Cercle(Color.parseColor(color),width);
-                    c.add(depart);
-                }
-
-                else if(outilActuel.equals("triangle")){
-
-                    if(compteurSommet == 0){
-                    tr = new Triangle(Color.parseColor(color),width);
-                        tr.add(depart);
-                        compteurSommet++;
-                    }else if(compteurSommet ==1){
-                        tr.tracer(depart);
-                        compteurSommet++;
-                    }else if(compteurSommet == 2){
-                        tr.tracer2(depart);
-                        compteurSommet=0;
-                        paths.add(tr);
-                        tr=null;
-                        v.invalidate();
+                if (formeEnCours == null) {
+                    if (outilActuel.equals("tracer libre")) {
+                        formeEnCours = new TraceLibre(Color.parseColor(color), width);
+                    } else if (outilActuel.equals("efface")) {
+                        formeEnCours = new Efface(couleurFond, width);
+                    } else if (outilActuel.equals("rectangle")) {
+                        formeEnCours = new Rectangle(Color.parseColor(color), width);
+                    } else if (outilActuel.equals("cercle")) {
+                        formeEnCours = new Cercle(Color.parseColor(color), width);
+                    } else if (outilActuel.equals("triangle")) {
+                        formeEnCours = new Triangle(Color.parseColor(color), width);
                     }
                 }
-                if (t != null) t.add(depart);
-                if (e != null) e.add(depart);
+                // ÉTAPE 2 : ACTION (Ajouter le point)
+                if (formeEnCours != null) {
+                    formeEnCours.add(depart);
 
+                    // CAS SPÉCIAL TRIANGLE : Il se finit au 3ème clic, pas au relâchement du doigt
+                    if (outilActuel.equals("triangle") && ((Triangle)formeEnCours).compteurSommet >= 2) {
+                        paths.add(formeEnCours);
+                        formeEnCours = null; // On libère pour le prochain triangle
+                        ((Triangle)formeEnCours).compteurSommet = 0;
+                    }
+                }
+                v.invalidate();
             }
             else if(event.getAction() == event.ACTION_MOVE){
                     arrivee.x = (int) event.getX();
                     arrivee.y = (int) event.getY();
-                if (t != null) {
-                    t.tracer(arrivee);
-                    v.invalidate();
-                }  if (e != null) {
-                    e.tracer(arrivee);
+                if (formeEnCours != null) {
+                    formeEnCours.tracer(arrivee);
                     v.invalidate();
                 }
-                if(r!= null) {
-                    r.tracer(arrivee);
-                    v.invalidate();
-                }
-                if(c!= null) {
-                    c.tracer(arrivee);
-                    v.invalidate();
-                }
-                if(tr != null && compteurSommet ==2){
-                    v.invalidate();
-                }
-
             } else if (event.getAction() == event.ACTION_UP) {
-                if(t!=null) {
+                if(formeEnCours!=null) {
                     depart.x = (int) event.getX();
                     depart.y = (int) event.getY();
-                    paths.add(t);
-                    t = null; // vider le trait
-                    v.invalidate();
-                } if(e!=null) {
-                    depart.x = (int) event.getX();
-                    depart.y = (int) event.getY();
-                    paths.add(e);
-                    e = null; // vider le trait
+                    paths.add(formeEnCours);
+                    formeEnCours = null; // vider le trait
                     v.invalidate();
                 }
-                if(r!=null){
-                    paths.add(r);
-                    r=null;
-                    v.invalidate();
-                }if(c!=null){
-                    paths.add(c);
-                    c=null;
-                    v.invalidate();
-                }
-
             }
             return true;
         }
@@ -302,11 +246,8 @@ public class MainActivity extends AppCompatActivity {
         protected void onDraw(@NonNull Canvas canvas) {
             super.onDraw(canvas);
             canvas.drawColor(couleurFond);
-            if(tr!=null) tr.dessiner(canvas);
-            if(e!=null) e.dessiner(canvas);
-            if(r!=null) r.dessiner(canvas);
-            if(c!=null) c.dessiner(canvas);
-            if(t!= null)  t.dessiner(canvas);
+            if(formeEnCours!=null) formeEnCours.dessiner(canvas);
+
             if(paths!= null){
 
                 for (int i = 0 ; i < paths.size() ; i++){

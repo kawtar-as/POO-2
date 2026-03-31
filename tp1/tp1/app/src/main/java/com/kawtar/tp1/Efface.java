@@ -26,9 +26,11 @@ public class Efface extends Forme {
         paint.setStyle(Paint.Style.STROKE);
         canvas.drawPath(p,paint);
     }
+    @Override
     public void add(Point depart){
         p.moveTo(depart.x,depart.y);
     }
+    @Override
     public void tracer(Point arrive){
         p.lineTo(arrive.x, arrive.y);
     }

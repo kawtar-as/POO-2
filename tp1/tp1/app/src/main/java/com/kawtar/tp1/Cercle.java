@@ -24,13 +24,13 @@ public class Cercle extends  Forme {
         paint.setStyle(Paint.Style.STROKE);
         canvas.drawCircle(centre.x,centre.y,rayon, paint);
     }
-
+    @Override
     public void add(Point p1) {
         centre.x = p1.x;
         centre.y = p1.y;
         this.rayon = 0;
     }
-
+    @Override
     public void tracer(Point p2) {
         this.rayon = Math.abs(p2.x-centre.x);
     }

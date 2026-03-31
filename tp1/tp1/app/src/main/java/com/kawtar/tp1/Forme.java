@@ -2,6 +2,7 @@ package com.kawtar.tp1;
 
 import android.graphics.Canvas;
 import android.graphics.Path;
+import android.graphics.Point;
 
 import java.util.ArrayList;
 
@@ -35,6 +36,11 @@ public abstract class Forme {
     }
 
     public abstract void dessiner(Canvas canvas);
+    public abstract void tracer(Point point);
+    public abstract void add(Point p);
+
+    public void tracer2(Point p) {
+    }
 
 
 }
