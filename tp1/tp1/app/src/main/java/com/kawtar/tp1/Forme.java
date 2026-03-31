@@ -35,6 +35,10 @@ public abstract class Forme {
         return largeur;
     }
 
+    public void setCouleur(int couleur) {
+        this.couleur = couleur;
+    }
+
     public abstract void dessiner(Canvas canvas);
     public abstract void tracer(Point point);
     public abstract void add(Point p);

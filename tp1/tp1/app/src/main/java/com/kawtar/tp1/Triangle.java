@@ -30,34 +30,34 @@ public class Triangle extends Forme{
     // premier sommet du triangle
     @Override
     public void add(Point p1) {
-        if(compteurSommet == 0) {
+
             sommet.x = p1.x;
             sommet.y = p1.y;
             p.moveTo(sommet.x, sommet.y);
             compteurSommet++;
-        }
+
     }
     @Override
     public void tracer(Point p2) {
-        if(compteurSommet == 1) {
+
             sommet2.x = p2.x;
             sommet2.y = p2.y;
             p.lineTo(sommet2.x, sommet2.y);
-            compteurSommet++;
-        }
-        else if(compteurSommet == 2){
-        sommet3.x = p2.x;
-        sommet3.y = p2.y;
-        p.lineTo(sommet3.x, sommet3.y);
-        p.close(); // fermer le triangle
-        }
 
-    }
-//    @Override
-//    public void tracer2(Point p3){
-//        sommet3.x = p3.x;
-//        sommet3.y = p3.y;
+
+//        else if(compteurSommet == 2){
+//        sommet3.x = p2.x;
+//        sommet3.y = p2.y;
 //        p.lineTo(sommet3.x, sommet3.y);
 //        p.close(); // fermer le triangle
-//    }
+//        }
+
+
+    }
+    public void tracer2(Point p3){
+        sommet3.x = p3.x;
+        sommet3.y = p3.y;
+        p.lineTo(sommet3.x, sommet3.y);
+        p.close(); // fermer le triangle
+    }
 }

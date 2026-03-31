@@ -39,15 +39,11 @@ public class MainActivity extends AppCompatActivity {
     Point depart = new Point();
     Point arrivee = new Point();
     String color,outilActuel;
-    int couleurFond ;
-    int width = 10,  compteurSommet = 0;
+    int couleurFond, cptsommet =0 ;
+    int width = 10;
     public void changerWidth(int largeur){this.width = largeur;}
-//    TraceLibre t;
-//    Rectangle r;
-//    Cercle c;
+
     Bitmap bitmap;
-//    Triangle tr;
-//    Efface e;
 
 
     @Override
@@ -115,20 +111,27 @@ public class MainActivity extends AppCompatActivity {
                 // ÉTAPE 2 : ACTION (Ajouter le point)
                 if (formeEnCours != null) {
                     formeEnCours.add(depart);
-
-                    // CAS SPÉCIAL TRIANGLE : Il se finit au 3ème clic, pas au relâchement du doigt
-                    if (outilActuel.equals("triangle") && ((Triangle)formeEnCours).compteurSommet >= 2) {
-                        paths.add(formeEnCours);
-                        formeEnCours = null; // On libère pour le prochain triangle
-                        ((Triangle)formeEnCours).compteurSommet = 0;
-                    }
+                    if(formeEnCours instanceof Triangle){cptsommet++;}
+                    v.invalidate();
                 }
-                v.invalidate();
             }
             else if(event.getAction() == event.ACTION_MOVE){
                     arrivee.x = (int) event.getX();
                     arrivee.y = (int) event.getY();
                 if (formeEnCours != null) {
+//                    if(formeEnCours instanceof Triangle) formeEnCours.tracer2();
+                    if(formeEnCours instanceof Efface)paths.add(formeEnCours);
+                    if(formeEnCours instanceof Triangle){
+                        if(cptsommet == 1){
+                            formeEnCours.tracer(depart);
+                            cptsommet ++;
+                        }
+                        else if(cptsommet == 2){
+                            formeEnCours.tracer2(depart);
+                            cptsommet =0;
+                        }
+                        v.invalidate();
+                    }
                     formeEnCours.tracer(arrivee);
                     v.invalidate();
                 }
@@ -136,6 +139,9 @@ public class MainActivity extends AppCompatActivity {
                 if(formeEnCours!=null) {
                     depart.x = (int) event.getX();
                     depart.y = (int) event.getY();
+                    if(formeEnCours instanceof Triangle){
+
+                    }
                     paths.add(formeEnCours);
                     formeEnCours = null; // vider le trait
                     v.invalidate();
@@ -201,7 +207,6 @@ public class MainActivity extends AppCompatActivity {
                    formeRdo.remove(formeRdo.size()-1);
                    surface.invalidate();
                }
-
            }
             else if(v == outils.getChildAt(4)){
                 outilActuel = "tracer libre";
@@ -216,8 +221,6 @@ public class MainActivity extends AppCompatActivity {
                 // on converti en couleur de android
                 crayon.setColor(Color.parseColor(color));
             }
-
-
         }
 
     }
@@ -246,13 +249,11 @@ public class MainActivity extends AppCompatActivity {
         protected void onDraw(@NonNull Canvas canvas) {
             super.onDraw(canvas);
             canvas.drawColor(couleurFond);
+
             if(formeEnCours!=null) formeEnCours.dessiner(canvas);
-
             if(paths!= null){
-
                 for (int i = 0 ; i < paths.size() ; i++){
-                   paths.get(i).dessiner(canvas);
-
+                    paths.get(i).dessiner(canvas);
 
                 }
             }

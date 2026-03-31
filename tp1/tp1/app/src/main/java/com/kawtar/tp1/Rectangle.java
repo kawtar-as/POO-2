@@ -23,10 +23,11 @@ public class Rectangle extends  Forme {
         paint.setStrokeWidth(getLargeur());
         paint.setStyle(Paint.Style.STROKE);
         float x1 = Math.min(depart.x,arrivee.x);
-        float y1 = Math.max(depart.y,arrivee.y);
-        float x2 = Math.min(depart.x,arrivee.x);
+        float y1 = Math.max(depart.x,arrivee.x);
+        float x2 = Math.min(depart.y,arrivee.y);
         float y2 = Math.max(depart.y,arrivee.y);
-        canvas.drawRect(x1,y1,x2,y2,paint);
+        canvas.drawRect(x1,x2,y1,y2,paint);
+
     }
     @Override
     public void add(Point p1){
