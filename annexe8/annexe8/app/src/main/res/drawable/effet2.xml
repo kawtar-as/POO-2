@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    !-- ÉTAT : PRESSÉ (Quand on appuie sur le bouton) -->
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <!-- Un seul bloc gradient avec toutes les propriétés -->
+            <gradient
+                android:type="linear"
+                android:startColor="#FFFFFF"
+                android:endColor="#FF0000"
+                android:angle="90" /> <!-- Angle inversé (Bas vers Haut) -->
+
+            <corners android:radius="12dp" />
+            <stroke android:width="2dp" android:color="#000000" />
+        </shape>
+    </item>
+
+    <!-- ÉTAT : PAR DÉFAUT (Au repos) -->
+    <item>
+        <shape android:shape="rectangle">
+            <!-- Dégradé de Haut vers Bas -->
+            <gradient
+                android:type="linear"
+                android:startColor="#FF0000"
+                android:endColor="#FFFFFF"
+                android:angle="270" /> <!-- Angle standard (Haut vers Bas) -->
+
+            <corners android:radius="12dp" />
+            <stroke android:width="2dp" android:color="#FF0000" />
+        </shape>
+    </item>
+</selector>

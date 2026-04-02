@@ -59,4 +59,17 @@
             app:chipStrokeWidth="3dp"
             app:chipStrokeColor="@color/effetchip" />
     </com.google.android.material.chip.ChipGroup>
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="244dp"
+        android:layout_marginTop="272dp"
+        android:background="@drawable/effet2"
+        android:text="Button"
+        app:backgroundTint="@null"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

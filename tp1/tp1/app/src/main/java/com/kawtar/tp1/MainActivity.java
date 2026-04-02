@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     Point depart = new Point();
     Point arrivee = new Point();
     String color,outilActuel;
-    int couleurFond, cptsommet =0 ;
+    int couleurFond, cptsommet = 0;
     int width = 10;
     public void changerWidth(int largeur){this.width = largeur;}
 
@@ -95,25 +95,40 @@ public class MainActivity extends AppCompatActivity {
             depart.x = (int) event.getX();
             depart.y = (int) event.getY();
             // si on dessine libre
-                if (formeEnCours == null) {
-                    if (outilActuel.equals("tracer libre")) {
-                        formeEnCours = new TraceLibre(Color.parseColor(color), width);
-                    } else if (outilActuel.equals("efface")) {
-                        formeEnCours = new Efface(couleurFond, width);
-                    } else if (outilActuel.equals("rectangle")) {
-                        formeEnCours = new Rectangle(Color.parseColor(color), width);
-                    } else if (outilActuel.equals("cercle")) {
-                        formeEnCours = new Cercle(Color.parseColor(color), width);
-                    } else if (outilActuel.equals("triangle")) {
-                        formeEnCours = new Triangle(Color.parseColor(color), width);
+                if(!outilActuel.equals("triangle")) {
+                    if (formeEnCours == null) {
+                        if (outilActuel.equals("tracer libre")) {
+                            formeEnCours = new TraceLibre(Color.parseColor(color), width);
+                        } else if (outilActuel.equals("efface")) {
+                            formeEnCours = new Efface(couleurFond, width);
+                        } else if (outilActuel.equals("rectangle")) {
+                            formeEnCours = new Rectangle(Color.parseColor(color), width);
+                        } else if (outilActuel.equals("cercle")) {
+                            formeEnCours = new Cercle(Color.parseColor(color), width);
+                        }
+                        if(formeEnCours != null) formeEnCours.add(depart);
+                        v.invalidate();
+                        return  true;
                     }
                 }
+                    if (outilActuel.equals("triangle")) {
+                        if (formeEnCours == null) {
+                            formeEnCours = new Triangle(Color.parseColor(color), width);
+                            formeEnCours.add(depart); // Sommet 1
+                            v.invalidate();
+                            return  true;
+                        }else{
+                            formeEnCours.tracer(depart);
+                            paths.add(formeEnCours);
+                            formeEnCours = null;
+                            v.invalidate();
+                            return true;
+                        }
+
+                    }
+
                 // ÉTAPE 2 : ACTION (Ajouter le point)
-                if (formeEnCours != null) {
-                    formeEnCours.add(depart);
-                    if(formeEnCours instanceof Triangle){cptsommet++;}
-                    v.invalidate();
-                }
+
             }
             else if(event.getAction() == event.ACTION_MOVE){
                     arrivee.x = (int) event.getX();
@@ -121,17 +136,6 @@ public class MainActivity extends AppCompatActivity {
                 if (formeEnCours != null) {
 //                    if(formeEnCours instanceof Triangle) formeEnCours.tracer2();
                     if(formeEnCours instanceof Efface)paths.add(formeEnCours);
-                    if(formeEnCours instanceof Triangle){
-                        if(cptsommet == 1){
-                            formeEnCours.tracer(depart);
-                            cptsommet ++;
-                        }
-                        else if(cptsommet == 2){
-                            formeEnCours.tracer2(depart);
-                            cptsommet =0;
-                        }
-                        v.invalidate();
-                    }
                     formeEnCours.tracer(arrivee);
                     v.invalidate();
                 }
@@ -139,9 +143,7 @@ public class MainActivity extends AppCompatActivity {
                 if(formeEnCours!=null) {
                     depart.x = (int) event.getX();
                     depart.y = (int) event.getY();
-                    if(formeEnCours instanceof Triangle){
 
-                    }
                     paths.add(formeEnCours);
                     formeEnCours = null; // vider le trait
                     v.invalidate();

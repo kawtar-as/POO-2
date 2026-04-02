@@ -21,43 +21,41 @@ public class Triangle extends Forme{
 
     @Override
     public void dessiner(Canvas canvas) {
-        Paint paint = new Paint( Paint.ANTI_ALIAS_FLAG);
-        paint.setColor(getCouleur());
-        paint.setStrokeWidth(getLargeur());
-        paint.setStyle(Paint.Style.STROKE);
-        canvas.drawPath(p,paint);
+        if(compteurSommet>=1) {
+            Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+            paint.setColor(getCouleur());
+            paint.setStrokeWidth(getLargeur());
+            paint.setStyle(Paint.Style.STROKE);
+            Path path = new Path();
+            path.moveTo(sommet.x, sommet.y);
+            path.lineTo(sommet2.x, sommet2.y);
+            path.lineTo(sommet3.x, sommet3.y);
+            path.close();
+            canvas.drawPath(path, paint);
+        }
     }
     // premier sommet du triangle
     @Override
     public void add(Point p1) {
-
-            sommet.x = p1.x;
-            sommet.y = p1.y;
-            p.moveTo(sommet.x, sommet.y);
-            compteurSommet++;
-
+        sommet.set(p1.x,p1.y);
     }
     @Override
     public void tracer(Point p2) {
-
-            sommet2.x = p2.x;
-            sommet2.y = p2.y;
-            p.lineTo(sommet2.x, sommet2.y);
-
-
-//        else if(compteurSommet == 2){
-//        sommet3.x = p2.x;
-//        sommet3.y = p2.y;
-//        p.lineTo(sommet3.x, sommet3.y);
-//        p.close(); // fermer le triangle
-//        }
-
+            sommet2.set(p2.x, p2.y);
+          sommet3.x = sommet.x;
+          sommet3.y = p2.y;
+        compteurSommet = 3;
 
     }
-    public void tracer2(Point p3){
-        sommet3.x = p3.x;
-        sommet3.y = p3.y;
-        p.lineTo(sommet3.x, sommet3.y);
-        p.close(); // fermer le triangle
-    }
+//    public void tracer2(Point p3){
+//
+//
+//            sommet3.set(p3.x, p3.y);
+//
+//            p.lineTo(sommet3.x, sommet3.y);
+//            p.close(); // ferme le triangle
+//
+//            compteurSommet = 3;
+//
+//    }
 }

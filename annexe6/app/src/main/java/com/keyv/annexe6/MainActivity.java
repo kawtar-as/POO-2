@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     private class SurfaceDessin extends View{
 
-        Paint crayon,crayon1,crayon2;
+        Paint crayon,crayon1,crayon2,crayon3;
 
         public SurfaceDessin(Context context) {
             super(context);
@@ -66,15 +67,19 @@ public class MainActivity extends AppCompatActivity {
 
             crayon2 = new Paint(Paint.ANTI_ALIAS_FLAG);
             crayon2.setColor(Color.RED);
+            crayon3 = new Paint(Paint.ANTI_ALIAS_FLAG);
+            crayon3.setColor(Color.MAGENTA);
         }
         // la methode est rappelé automatiquement quand on instancie la surface de dessin
         @Override
         protected void onDraw(@NonNull Canvas canvas) {
             super.onDraw(canvas);
             canvas.drawCircle(100,100,80,crayon);
-            canvas.drawCircle(280,100,80,crayon1);
+            canvas.drawCircle(280,100,80,crayon2);
 
             canvas.drawArc(260,300,400,400,240,120,true,crayon2);
+            canvas.drawArc(260,300,400,400,0,120,true,crayon1);
+            canvas.drawArc(260,300,400,400,-240,120,true,crayon3);
         }
     }
 }
