@@ -31,6 +31,7 @@ public class Cercle extends  Forme {
         this.rayon = 0;
     }
     @Override
+    // Calcule le rayon comme la distance absolue entre le centre et le point p2 e
     public void tracer(Point p2) {
         this.rayon = Math.abs(p2.x-centre.x);
     }

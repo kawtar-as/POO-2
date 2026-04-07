@@ -17,7 +17,6 @@ public class TraceLibre extends Forme {
 
     }
 
-    // methode de tracer
    @Override
    public void dessiner(Canvas canvas){
     Paint paint = new Paint( Paint.ANTI_ALIAS_FLAG);

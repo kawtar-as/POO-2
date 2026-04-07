@@ -22,10 +22,10 @@ public class Rectangle extends  Forme {
         paint.setColor(getCouleur());
         paint.setStrokeWidth(getLargeur());
         paint.setStyle(Paint.Style.STROKE);
-        float x1 = Math.min(depart.x,arrivee.x);
-        float y1 = Math.max(depart.x,arrivee.x);
-        float x2 = Math.min(depart.y,arrivee.y);
-        float y2 = Math.max(depart.y,arrivee.y);
+        float x1 = Math.min(depart.x,arrivee.x); // cote gauche : plus petite x
+        float y1 = Math.max(depart.x,arrivee.x); // cote droit : plus grande x
+        float x2 = Math.min(depart.y,arrivee.y); // cote haut: plus petite y
+        float y2 = Math.max(depart.y,arrivee.y); // cote bas :plus grande y
         canvas.drawRect(x1,x2,y1,y2,paint);
 
     }
@@ -33,13 +33,14 @@ public class Rectangle extends  Forme {
     public void add(Point p1){
         depart.x = p1.x;
         depart.y = p1.y;
+        // Initialise aussi le point d'arrivée au même endroit
         arrivee.x = p1.x;
         arrivee.y = p1.y;
     }
     @Override
     public void tracer(Point p2){
-      arrivee.x = p2.x;
-      arrivee.y = p2.y;
+      arrivee.x = p2.x;// Met à jour la coordonnée X d'arrivée
+      arrivee.y = p2.y;// Met à jour la coordonnée Y d'arrivée
     }
 
     public Point getDepart() {

@@ -8,13 +8,7 @@ import java.util.ArrayList;
 
 public abstract class Forme {
 
-//    enum forme{
-//        triangle,
-//        cercle,
-//        efface,
-//        libre,
-//        rectangle,
-//    }
+
     private Path p ;
     private int couleur;
     private int largeur;

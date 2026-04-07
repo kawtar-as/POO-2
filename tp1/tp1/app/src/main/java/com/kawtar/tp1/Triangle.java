@@ -21,16 +21,17 @@ public class Triangle extends Forme{
 
     @Override
     public void dessiner(Canvas canvas) {
+        // verifie que le triangle a au moins un sommet
         if(compteurSommet>=1) {
             Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
             paint.setColor(getCouleur());
             paint.setStrokeWidth(getLargeur());
             paint.setStyle(Paint.Style.STROKE);
             Path path = new Path();
-            path.moveTo(sommet.x, sommet.y);
-            path.lineTo(sommet2.x, sommet2.y);
-            path.lineTo(sommet3.x, sommet3.y);
-            path.close();
+            path.moveTo(sommet.x, sommet.y); // premier sommet
+            path.lineTo(sommet2.x, sommet2.y); // ligne vers le 2e sommet
+            path.lineTo(sommet3.x, sommet3.y); // trace vers le 3eme sommet
+            path.close(); // ferme le path
             canvas.drawPath(path, paint);
         }
     }
@@ -40,22 +41,13 @@ public class Triangle extends Forme{
         sommet.set(p1.x,p1.y);
     }
     @Override
-    public void tracer(Point p2) {
-            sommet2.set(p2.x, p2.y);
-          sommet3.x = sommet.x;
-          sommet3.y = p2.y;
-        compteurSommet = 3;
+    public void tracer(Point p2) { // triangle rectangle
+        sommet2.set(p2.x, p2.y);
+        // troisieme sommet du triangle rectangle
+        sommet3.x = p2.x;
+        sommet3.y = sommet.y;
+        compteurSommet = 3; // mrque que maintenant les 3 sommets sont fini
 
     }
-//    public void tracer2(Point p3){
-//
-//
-//            sommet3.set(p3.x, p3.y);
-//
-//            p.lineTo(sommet3.x, sommet3.y);
-//            p.close(); // ferme le triangle
-//
-//            compteurSommet = 3;
-//
-//    }
+
 }

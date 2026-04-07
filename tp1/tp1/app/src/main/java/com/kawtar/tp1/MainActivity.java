@@ -30,22 +30,19 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout main;
     ConstraintLayout dessin;
     DialogTrait dialog;
-
-    LinearLayout palette,outils;
+    LinearLayout palette,outils; // conteneur des boutons
     Paint crayon;
     Forme formeEnCours;
+    // paths : toutes les formes dessinés   |    formeRdo: pour le redo
     ArrayList<Forme>paths,formeRdo;
     ArrayList<Paint>crayons;
-    Point depart = new Point();
-    Point arrivee = new Point();
+    Point depart = new Point(),arrivee = new Point();
     String color,outilActuel;
-    int couleurFond, cptsommet = 0;
-    int width = 10;
+    int couleurFond,width = 10;
+    // méthode pour changer l'épaisseur du crayon
     public void changerWidth(int largeur){this.width = largeur;}
 
     Bitmap bitmap;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,13 +58,14 @@ public class MainActivity extends AppCompatActivity {
         palette = findViewById(R.id.palette);
         outils=findViewById(R.id.outils);
 
-        // 1 ere etape
+        // 1 ere etape : creation des objets
         ec = new Ecouteur();
         surface= new SurfaceDessin(this);
         formeRdo = new ArrayList<>();
         dialog = new DialogTrait(this);
+
         //2 eme étape: parcourir chaque boutton pour mettre un écouteur
-            // pour les bouttons
+        // pour les bouttons
         for(int i= 0; i <palette.getChildCount();i++){
             if(palette.getChildAt(i) instanceof Button)
                 palette.getChildAt(i).setOnClickListener(ec);
@@ -89,13 +87,16 @@ public class MainActivity extends AppCompatActivity {
         Bitmap image;
         @Override
         public boolean onTouch(View v, MotionEvent event) {
+            // initialiser la couleur par défaut
             if (outilActuel == null) outilActuel = "tracer libre";
+            // début du dessin
             if( event.getAction() == event.ACTION_DOWN){
                 //garder en mémoire le départ
-            depart.x = (int) event.getX();
-            depart.y = (int) event.getY();
-            // si on dessine libre
+                depart.x = (int) event.getX();
+                depart.y = (int) event.getY();
+               // gestion des formes autres que triangle
                 if(!outilActuel.equals("triangle")) {
+                    // crée la forme selon l'outil choisi
                     if (formeEnCours == null) {
                         if (outilActuel.equals("tracer libre")) {
                             formeEnCours = new TraceLibre(Color.parseColor(color), width);
@@ -105,37 +106,46 @@ public class MainActivity extends AppCompatActivity {
                             formeEnCours = new Rectangle(Color.parseColor(color), width);
                         } else if (outilActuel.equals("cercle")) {
                             formeEnCours = new Cercle(Color.parseColor(color), width);
+                        }else if(outilActuel.equals("pipette")){
+                            // récuperer la couleur du pixel cliqé
+                            image = surface.getBitmapImage();
+                            int couleurP = image.getPixel(depart.x,depart.y);
+                           // format trouvée sur internet puisque ma couleur est un String pas un int pour convertir en format hexadecimal
+                            color = String.format("#%08X", couleurP);
+                            outilActuel = "tracer libre";
+                            formeEnCours = new TraceLibre(Color.parseColor(color), width);
                         }
+                        // ajouter le point de départ a la forme
                         if(formeEnCours != null) formeEnCours.add(depart);
                         v.invalidate();
                         return  true;
                     }
                 }
-                    if (outilActuel.equals("triangle")) {
-                        if (formeEnCours == null) {
-                            formeEnCours = new Triangle(Color.parseColor(color), width);
-                            formeEnCours.add(depart); // Sommet 1
-                            v.invalidate();
-                            return  true;
-                        }else{
-                            formeEnCours.tracer(depart);
-                            paths.add(formeEnCours);
-                            formeEnCours = null;
-                            v.invalidate();
-                            return true;
-                        }
-
+                if (outilActuel.equals("triangle")) {
+                    if (formeEnCours == null) {
+                        // premier clic
+                        formeEnCours = new Triangle(Color.parseColor(color), width);
+                        formeEnCours.add(depart); // Sommet 1
+                        v.invalidate();
+                        return  true;
+                    }else{
+                        //deuxieme clic
+                        formeEnCours.tracer(depart);
+                        paths.add(formeEnCours);
+                        formeEnCours = null;
+                        v.invalidate();
+                        return true;
                     }
-
-                // ÉTAPE 2 : ACTION (Ajouter le point)
-
+                }
             }
+            // ÉTAPE 2 : ACTION (Ajouter le point)
             else if(event.getAction() == event.ACTION_MOVE){
                     arrivee.x = (int) event.getX();
                     arrivee.y = (int) event.getY();
                 if (formeEnCours != null) {
-//                    if(formeEnCours instanceof Triangle) formeEnCours.tracer2();
+                    //(Efface) ajouter chaque trait à l'historique
                     if(formeEnCours instanceof Efface)paths.add(formeEnCours);
+                    // Tracer la forme en cours jusqu'au point d'arrivée
                     formeEnCours.tracer(arrivee);
                     v.invalidate();
                 }
@@ -143,7 +153,6 @@ public class MainActivity extends AppCompatActivity {
                 if(formeEnCours!=null) {
                     depart.x = (int) event.getX();
                     depart.y = (int) event.getY();
-
                     paths.add(formeEnCours);
                     formeEnCours = null; // vider le trait
                     v.invalidate();
@@ -161,12 +170,12 @@ public class MainActivity extends AppCompatActivity {
             }
             //boutton pipette
             else if(v == outils.getChildAt(10)){
-                outilActuel = "pipette";
+               outilActuel = "pipette";
                 return;
 
             }
+            // pot de peinture
             else if(v == outils.getChildAt(3)){
-                System.out.println("hello popo");
                 outilActuel = "pot";
                 if (color != null) {
                     couleurFond = Color.parseColor(color);
@@ -175,48 +184,55 @@ public class MainActivity extends AppCompatActivity {
                 return;
 
             }
-           else  if(v == outils.getChildAt(6)){
+            // taille du trait avec alertDialog
+            else if(v == outils.getChildAt(6)){
                 outilActuel = "taille_trait";
                 dialog.show();
 
 
-            }else  if(v == outils.getChildAt(1)){
+            }
+            //rectangle
+            else if(v == outils.getChildAt(1)){
                 outilActuel = "rectangle";
                 return;
 
             }
-           else  if(v == outils.getChildAt(0)){
+            //cercle
+            else  if(v == outils.getChildAt(0)){
                 outilActuel ="cercle";
                 return;
             }
-           else  if(v==outils.getChildAt(2)){
+            //triangle rectangle
+            else  if(v==outils.getChildAt(2)){
                 outilActuel ="triangle";
                 return;
-           }
-           else  if(v == outils.getChildAt(8) ){
-                System.out.println("hello popo");
+            }
+            //annuler la derniere forme
+            else if(v == outils.getChildAt(8) ){
                 outilActuel = "undo";
-                    if (paths != null) {
+                    if (paths != null && paths.size() > 0) {
+                        // Déplacer la dernière forme de paths vers formeRdo
                         formeRdo.add(paths.get(paths.size() - 1));
                         paths.remove(paths.size() - 1);
-                        surface.invalidate();
-                    }
-          }
-           else if (v == outils.getChildAt(9)){
+                        surface.invalidate();}
+            }
+            // refaire ce qu'on a enlevé
+            else if (v == outils.getChildAt(9)){
                outilActuel = "redo";
-               if(formeRdo!=null){
+               if(formeRdo!=null && formeRdo.size() > 0){
+                   // Restaurer la dernière forme supprimée
                    paths.add(formeRdo.get(formeRdo.size()-1));
                    formeRdo.remove(formeRdo.size()-1);
                    surface.invalidate();
                }
-           }
+            }
+            // bouton tracer libre
             else if(v == outils.getChildAt(4)){
                 outilActuel = "tracer libre";
                 return;
             }
-            // boutton pot de peinture
-            outilActuel = "tracer libre";
 
+            outilActuel = "tracer libre";
             if(v instanceof  Button )  { // ajouter le truc de crayon aussi
                 // on get le tag ou on a mis la valeur de la couleur en hexa
                 color = v.getTag().toString();
@@ -228,19 +244,17 @@ public class MainActivity extends AppCompatActivity {
     }
     private class SurfaceDessin extends View {
         public Bitmap getBitmapImage() {
-
             this.buildDrawingCache();
             bitmap = Bitmap.createBitmap(this.getDrawingCache());
             this.destroyDrawingCache();
-
             return bitmap;
         }
         public SurfaceDessin(Context context){
             super(context);
-            // ici on change background/ les trucs de crayon
+            // Initialiser le crayon
             crayon = new Paint(Paint.ANTI_ALIAS_FLAG);
-            color = "#000000";
-            couleurFond = Color.WHITE;
+            color = "#000000"; // Couleur par défaut : noir
+            couleurFond = Color.WHITE; // Fond par défaut : blanc
             crayons = new ArrayList<>();
             crayon.setStrokeWidth(width);
             crayon.setStyle(Paint.Style.STROKE);
@@ -250,17 +264,21 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onDraw(@NonNull Canvas canvas) {
             super.onDraw(canvas);
+            // Remplir le fond avec la couleur du fond
             canvas.drawColor(couleurFond);
-
+            // Dessiner la forme en cours
             if(formeEnCours!=null) formeEnCours.dessiner(canvas);
+            // Dessiner toutes les formes finalisée
             if(paths!= null){
                 for (int i = 0 ; i < paths.size() ; i++){
+                    //  l'efface doit utiliser la couleur de fond
+                    if(paths.get(i) instanceof  Efface){
+                        paths.get(i).setCouleur(couleurFond);
+                    }
                     paths.get(i).dessiner(canvas);
 
                 }
             }
-
         }
     }
-
 }
