@@ -47,7 +47,7 @@ public class GestionBD extends SQLiteOpenHelper {
         ContentValues cv =  new ContentValues(); // comme une hashmap
         cv.put("nom", i.getNom());
         cv.put("origin", i.getOrigine());
-        cv.put("inention", i.getInvention());
+        cv.put("invention", i.getInvention());
         cv.put("annee", i.getAnnee());
         db.insert("inventeur",null,cv);
     }
@@ -64,7 +64,7 @@ public class GestionBD extends SQLiteOpenHelper {
         database = this.getReadableDatabase();
     }
 
-    public ArrayList<String>etournerInventions(){
+    public ArrayList<String>retournerInventions(){
         ArrayList<String>listeInventions = new ArrayList<>();
         Cursor cursor = database.rawQuery("select origin, invention from inventeur", null);
         while (cursor.moveToNext()){
