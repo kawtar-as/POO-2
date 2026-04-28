@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.lyne.annexe13"
+    namespace = "com.example.projetadressage"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.lyne.annexe13"
+        applicationId = "com.example.projetadressage"
         minSdk = 26
         targetSdk = 35
         versionCode = 1
@@ -32,7 +32,7 @@ android {
 }
 
 dependencies {
-
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)

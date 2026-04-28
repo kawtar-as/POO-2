@@ -19,5 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Annexe13"
+rootProject.name = "ProjetAdressage"
 include(":app")
+ 

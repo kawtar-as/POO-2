@@ -6,44 +6,58 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity" >
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="ApplicationBieres" />
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:background="#673AB7"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:text="AppBieresSimple"
+        android:textColor="#F8F8F8"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_gravity="center"
         android:layout_weight="1"
-        android:text="Dégustation de bières" />
+        android:gravity="center|center_vertical"
+        android:text="App d'évaluation de bières"
+        android:textColor="#ED5F5757"
+        android:textSize="28sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_gravity="clip_horizontal"
-        android:layout_weight="1"
+        android:layout_weight="1.5"
+        android:gravity="center"
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/button"
-            android:layout_width="173dp"
+            android:id="@+id/ajouterEval"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Ajouter une évaluation" />
+            android:gravity="center|center_vertical"
+            android:text="AJOUTER UNE ÉVALUATION" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
 
         <Button
-            android:id="@+id/button2"
-            android:layout_width="174dp"
+            android:id="@+id/meilleureEval"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginVertical="20dp"
-            android:gravity="center"
-            android:text="Meilleur bières évalués" />
+            android:gravity="center|center_vertical"
+            android:text="VOIR LES 3 MIEUX ÉVALUÉES" />
     </LinearLayout>
 
 </LinearLayout>
