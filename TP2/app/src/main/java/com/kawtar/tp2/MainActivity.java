@@ -1,9 +1,11 @@
 package com.kawtar.tp2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.activity.EdgeToEdge;
@@ -17,8 +19,9 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     ListView liste;
     Ecouteur ec;
-
+    Intent i ;
     ArrayList<String> meilleures;
+    Button jouer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,20 +32,34 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
+        jouer = findViewById(R.id.start);
         liste = findViewById(R.id.list);
+
+        meilleures = new ArrayList<>();
+
+        ec = new Ecouteur();
+        jouer.setOnClickListener(ec);
+
         ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, meilleures);
         liste.setAdapter(adapter);
-        ec = new Ecouteur();
 
         liste.setOnItemClickListener(ec);
     }
-    private class Ecouteur implements AdapterView.OnItemClickListener{
+    private class Ecouteur implements View.OnClickListener,AdapterView.OnItemClickListener{
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             liste.setOnItemClickListener(null);
             finish();
+        }
+
+        @Override
+        public void onClick(View source) {
+            if(source == jouer ){
+                i = new Intent(MainActivity.this, MainActivity2.class);
+
+            }
+            startActivity(i);
         }
     }
 }

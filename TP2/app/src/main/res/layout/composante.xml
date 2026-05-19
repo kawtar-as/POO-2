@@ -2,8 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="100dp"
-    android:layout_height="100dp">
+    android:layout_width="87dp"
+    android:layout_height="87dp"
+    android:layout_margin="5dp"
+    android:background="#E25E3F9D"
+    android:foregroundTint="#E93A1F68">
 
     <TextView
         android:id="@+id/multiplicateur"
@@ -16,7 +19,9 @@
         android:layout_width="46dp"
         android:layout_height="71dp"
         android:layout_gravity="bottom"
-        android:text="TextView" />
+        android:gravity="center"
+        android:text="TextView"
+        android:textSize="34sp" />
 
     <TextView
         android:id="@+id/point"

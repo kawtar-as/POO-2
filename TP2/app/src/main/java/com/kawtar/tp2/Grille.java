@@ -1,5 +1,7 @@
 package com.kawtar.tp2;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -43,19 +45,17 @@ public class Grille {
 
     // methode pour creer la grille
 
-    public Lettre[][] creerGrille(){
-        Lettre[][]  grille = new Lettre[4][4];
-        for (int i = 0; i < grille.length;i++){ // ligne
+    public void creerGrille(){
+       // Lettre[][]  grille = new Lettre[4][4];
+        for (int i = 0; i < lettres.length;i++){ // ligne
 
-            for (int j =0; j < grille[i].length; j++){ // colonne
+            for (int j =0; j < lettres[i].length; j++) { // colonne
 
-               grille[i][j] = choisirRandom();
-                System.out.println( grille[i][j].getAlphabet());
+                lettres[i][j] = choisirRandom();
+                System.out.println(lettres[i][j].getAlphabet());
 
             }
-            System.out.println();
         }
-        return  grille;
     }
     // methode pour choisir aléatoire lettre
     public Lettre choisirRandom(){
@@ -66,9 +66,33 @@ public class Grille {
             somme += lettre.getPoids();
             if (nombreRandom < somme)
             {  System.out.println(lettre);
-            return lettre;}
+            return new Lettre(lettre.getAlphabet(),lettre.getValeur(), lettre.getPoids());
+            }
         }
         return null;
     };
+    // methode pour generer multiplicateur dependamenet
+    public void genererMultiplicateur(){
+        ArrayList<Integer> pos = new ArrayList<>() ;
+        for (int i = 0; i<= 15; i++){
+            pos.add(i);
+        }
+        Collections.shuffle(pos);
+
+        // double
+        for (int i = 0; i< 2; i++){
+            int  position =pos.get(i);
+            int ligne = position/4;
+            int colonne = position%4;
+            lettres[ligne][colonne].setMultiplicateur(2);
+
+        }
+       int posTriple = pos.get(2);
+        lettres[posTriple/4][posTriple%4].setMultiplicateur(3);
+
+        // position suivante, index 3
+        int posMotDouble = pos.get(3);
+        lettres[posMotDouble / 4][posMotDouble % 4].setMultiplicateurMot(2);
+    }
 
 }

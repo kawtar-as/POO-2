@@ -34,5 +34,11 @@ public class Lettre {
         return poids;
     }
 
+    public void setMultiplicateur(int multiplicateur) {
+        this.multiplicateur = multiplicateur;
+    }
 
+    public void setMultiplicateurMot(int multiplicateurMot) {
+        this.multiplicateurMot = multiplicateurMot;
+    }
 }
