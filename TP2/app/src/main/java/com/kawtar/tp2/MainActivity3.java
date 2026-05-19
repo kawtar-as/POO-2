@@ -1,6 +1,10 @@
 package com.kawtar.tp2;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,7 +13,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity3 extends AppCompatActivity {
-
+    Button rejouer;
+    ListView listview;
+    TextView text;
+    Ecouteur ec;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,5 +27,20 @@ public class MainActivity3 extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        rejouer = findViewById(R.id.button);
+        listview = findViewById(R.id.listee);
+        text = findViewById(R.id.textView3);
+
+        rejouer.setOnClickListener(ec);
+
+    }
+    private class Ecouteur implements View.OnClickListener{
+
+
+        @Override
+        public void onClick(View v) {
+
+        }
     }
 }

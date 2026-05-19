@@ -8,19 +8,19 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-public class composante extends LinearLayout {
+public class Composante extends LinearLayout {
     TextView multiplicateur,point,lettre;
-    public composante(Context context) {
+    public Composante(Context context) {
         super(context);
         init(context);
     }
 
-    public composante(Context context, @Nullable AttributeSet attrs) {
+    public Composante(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public composante(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public Composante(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }

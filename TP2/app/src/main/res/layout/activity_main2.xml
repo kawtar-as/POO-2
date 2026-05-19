@@ -44,6 +44,7 @@
 
 
     <TableLayout
+        android:id="@+id/grilleJeu"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4">
@@ -52,40 +53,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.kawtar.tp2.composante
+            <com.kawtar.tp2.Composante
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <com.kawtar.tp2.composante
+            <com.kawtar.tp2.Composante
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <com.kawtar.tp2.composante
+            <com.kawtar.tp2.Composante
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <com.kawtar.tp2.composante
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.kawtar.tp2.composante
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <com.kawtar.tp2.composante
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <com.kawtar.tp2.composante
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <com.kawtar.tp2.composante
+            <com.kawtar.tp2.Composante
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </TableRow>
@@ -94,19 +74,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.kawtar.tp2.composante
+            <com.kawtar.tp2.Composante
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <com.kawtar.tp2.composante
+            <com.kawtar.tp2.Composante
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <com.kawtar.tp2.composante
+            <com.kawtar.tp2.Composante
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <com.kawtar.tp2.composante
+            <com.kawtar.tp2.Composante
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </TableRow>
@@ -115,19 +95,40 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.kawtar.tp2.composante
+            <com.kawtar.tp2.Composante
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <com.kawtar.tp2.composante
+            <com.kawtar.tp2.Composante
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <com.kawtar.tp2.composante
+            <com.kawtar.tp2.Composante
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <com.kawtar.tp2.composante
+            <com.kawtar.tp2.Composante
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.kawtar.tp2.Composante
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <com.kawtar.tp2.Composante
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <com.kawtar.tp2.Composante
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <com.kawtar.tp2.Composante
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </TableRow>
