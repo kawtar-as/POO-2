@@ -26,22 +26,23 @@
             android:id="@+id/totalpoint"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:gravity="center" />
 
         <TextView
             android:id="@+id/mot"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:text="TextView" />
+            android:gravity="center"
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/pointnow"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView" />
+            android:layout_weight="1" />
     </LinearLayout>
 
 
@@ -49,90 +50,132 @@
         android:id="@+id/grilleJeu"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4">
+        android:layout_gravity="center"
+        android:layout_weight="4"
+        android:gravity="center">
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center">
 
             <com.kawtar.tp2.Composante
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/background_contenant" />
 
             <com.kawtar.tp2.Composante
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/background_contenant" />
 
             <com.kawtar.tp2.Composante
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/background_contenant" />
 
             <com.kawtar.tp2.Composante
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/background_contenant" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center">
 
             <com.kawtar.tp2.Composante
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/background_contenant" />
 
             <com.kawtar.tp2.Composante
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/background_contenant" />
 
             <com.kawtar.tp2.Composante
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/background_contenant" />
 
             <com.kawtar.tp2.Composante
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/background_contenant" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center">
 
             <com.kawtar.tp2.Composante
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/background_contenant" />
 
             <com.kawtar.tp2.Composante
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/background_contenant" />
 
             <com.kawtar.tp2.Composante
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/background_contenant" />
 
             <com.kawtar.tp2.Composante
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/background_contenant" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center">
 
             <com.kawtar.tp2.Composante
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/background_contenant" />
 
             <com.kawtar.tp2.Composante
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/background_contenant" />
 
             <com.kawtar.tp2.Composante
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/background_contenant" />
 
             <com.kawtar.tp2.Composante
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@drawable/background_contenant" />
         </TableRow>
 
     </TableLayout>

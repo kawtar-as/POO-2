@@ -73,11 +73,11 @@ public class Grille {
     };
     // methode pour generer multiplicateur dependamenet
     public void genererMultiplicateur(){
-        ArrayList<Integer> pos = new ArrayList<>() ;
+        ArrayList<Integer> pos = new ArrayList<>() ; // une arratluist de position de la grille
         for (int i = 0; i<= 15; i++){
-            pos.add(i);
+            pos.add(i); // on ajoute les 16 cases
         }
-        Collections.shuffle(pos);
+        Collections.shuffle(pos); // melanger
 
         // double
         for (int i = 0; i< 2; i++){
@@ -87,10 +87,11 @@ public class Grille {
             lettres[ligne][colonne].setMultiplicateur(2);
 
         }
+        //triple
        int posTriple = pos.get(2);
         lettres[posTriple/4][posTriple%4].setMultiplicateur(3);
 
-        // position suivante, index 3
+       // double mot
         int posMotDouble = pos.get(3);
         lettres[posMotDouble / 4][posMotDouble % 4].setMultiplicateurMot(2);
     }

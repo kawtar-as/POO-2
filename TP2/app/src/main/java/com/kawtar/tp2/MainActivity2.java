@@ -1,13 +1,19 @@
 package com.kawtar.tp2;
 
+import static android.view.View.INVISIBLE;
+
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -19,13 +25,21 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.ArrayList;
+
 public class MainActivity2 extends AppCompatActivity {
 
     SeekBar seekBar;
+    TextView word, pointTotal,pointchacun;
     Ecouteur ec;
     Lettre [][] grille;
     TableLayout grilleJeu;
     Intent i ;
+    LinearLayout main;
+    String mot = "";
+    GestionBD instance;
+    ArrayList<String> motTrouve;
+    Mot m;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,14 +51,20 @@ public class MainActivity2 extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        instance = GestionBD.getInstance(getApplicationContext());
+        main = findViewById(R.id.main);
         seekBar= findViewById(R.id.seekBar);
         grilleJeu = findViewById(R.id.grilleJeu);
+        word = findViewById(R.id.mot);
+        pointchacun = findViewById(R.id.pointnow);
+        pointTotal = findViewById(R.id.totalpoint);
         ec = new Ecouteur();
 
         seekBar.setOnSeekBarChangeListener(ec);
         seekBar.setMax(75000);
         seekBar.setProgress(75000); // on le set au maximum
 
+        motTrouve = new ArrayList<>();
         MonTimer m = new MonTimer();
         m.start();
         Grille g = new Grille();
@@ -58,7 +78,9 @@ public class MainActivity2 extends AppCompatActivity {
             for(int j = 0 ; j < child.getChildCount(); j++){
                 Composante child2 = (Composante) child.getChildAt(j);
                 child2.setOnDragListener(ec);
+                child2.setOnTouchListener(ec);
                 Lettre l = grille[i][j];
+                child2.setLettreObjet(l);
                 child2.getLettre().setText(String.valueOf(l.getAlphabet()));
                 child2.getPoint().setText(String.valueOf(l.getValeur())); //  les points
                 if(l.getMultiplicateur()>1){
@@ -75,16 +97,48 @@ public class MainActivity2 extends AppCompatActivity {
 
     }
     private class Ecouteur implements View.OnTouchListener,View.OnDragListener,SeekBar.OnSeekBarChangeListener{
+        Drawable selectionne = getResources().getDrawable(R.drawable.background_contenant_selectionne,null);
+        Drawable normal = getResources().getDrawable(R.drawable.background_contenant,null);
 
 
         @Override
-        public boolean onDrag(View v, DragEvent event) {
-            return false;
+        public boolean onDrag(View source, DragEvent event) {
+            Composante c = (Composante)  source;
+            switch(event.getAction()){
+                case DragEvent.ACTION_DRAG_STARTED:
+                    m = new Mot();
+                    return true;
+                case DragEvent.ACTION_DRAG_ENTERED:
+                    source.setBackground(selectionne);
+                    Lettre lettreNow =  c.getLettreObjet();
+                    m.ajouterLettres(lettreNow );
+                    mot += c.getLettre().getText();
+                    word.setText(mot);
+                case DragEvent.ACTION_DROP:
+                    if(instance.motExist(mot) && !motTrouve.contains(mot))
+                        System.out.println("existe");
+                        motTrouve.add(mot);
+                        pointTotal.setText(String.valueOf(m.sommeValeur()));
+
+                    break;
+                    // ici on dooit get la lettre selectiomne et la stocker dans le mot
+                case DragEvent.ACTION_DRAG_ENDED:
+                    source.setBackground(normal);
+                    mot = "";
+                    word.setText(mot);
+                    break;
+
+            }
+            return true;
         }
+
+
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            return false;
+            ShadowInvisible shadowInvisible = new ShadowInvisible();
+            v.startDragAndDrop(null,shadowInvisible,v,0);
+            return true;
         }
 
         @Override
@@ -102,6 +156,24 @@ public class MainActivity2 extends AppCompatActivity {
 
         }
     }
+    private static class ShadowInvisible extends View.DragShadowBuilder
+    {
+
+
+        @Override
+        public void onProvideShadowMetrics(Point outShadowSize, Point outShadowTouchPoint) {
+            // tout petit
+            outShadowSize.set(1, 1);
+            outShadowTouchPoint.set(0, 0);
+        }
+
+        @Override
+        public void onDrawShadow(Canvas canvas) {
+            // rien faire, on ne dessine rien
+        }
+
+    }
+
 
     private class MonTimer extends CountDownTimer {
 

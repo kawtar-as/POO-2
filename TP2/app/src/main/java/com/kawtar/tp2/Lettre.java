@@ -8,7 +8,7 @@ public class Lettre {
     public Lettre(char alphabet, int valeur , int poids) {
         this.alphabet = alphabet;
         this.valeur = valeur;
-        this.multiplicateur =1;
+        this.multiplicateur = 1;
         this.multiplicateurMot = 1;
         this.poids = poids;
     }
@@ -40,5 +40,8 @@ public class Lettre {
 
     public void setMultiplicateurMot(int multiplicateurMot) {
         this.multiplicateurMot = multiplicateurMot;
+    }
+    public int getValeurActuelle( ){
+    return this.valeur * this.multiplicateur;
     }
 }

@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 
 public class Composante extends LinearLayout {
     TextView multiplicateur,point,lettre;
+    private Lettre lettreObjet;
     public Composante(Context context) {
         super(context);
         init(context);
@@ -55,5 +56,13 @@ public class Composante extends LinearLayout {
 
     public void setLettre(TextView lettre) {
         this.lettre = lettre;
+    }
+
+    public Lettre getLettreObjet() {
+        return lettreObjet;
+    }
+
+    public void setLettreObjet(Lettre lettreObjet) {
+        this.lettreObjet = lettreObjet;
     }
 }

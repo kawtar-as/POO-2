@@ -66,6 +66,13 @@ public class GestionBD extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
+    public boolean motExist(String mot){
+        String [] tab = {mot};
+        Cursor c = database.rawQuery("select * from lexique where ortho = ?",tab);
+        boolean rep = c.moveToFirst();
+        c.close();
+        return rep;
+    }
     public void ajouterPointage(Pointage p ){
         ContentValues cv = new ContentValues();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
