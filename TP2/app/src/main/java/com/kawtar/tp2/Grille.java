@@ -10,7 +10,7 @@ public class Grille {
     private Lettre [][]lettres ;
     private Random random;
     private HashMap <Character, Lettre> hm = new HashMap<>();
-    private int totalPoint;
+
     public Grille() {
         lettres = new Lettre[4][4];
         this.random = new Random();
@@ -40,7 +40,7 @@ public class Grille {
         hm.put('x',new Lettre('x',5,1));
         hm.put('y',new Lettre('y',5,1));
         hm.put('z',new Lettre('z',5,1));
-        this.totalPoint = 0;
+
     }
 
     // methode pour creer la grille

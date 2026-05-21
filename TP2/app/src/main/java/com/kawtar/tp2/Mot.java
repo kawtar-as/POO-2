@@ -8,7 +8,7 @@ public class Mot {
     public Mot() {
         lettres = new ArrayList<>();
     }
-    // methode calculer valeur qui fait la somme des valeur des lettres
+
 
     // ajouter lettre
     public void ajouterLettres(Lettre l){

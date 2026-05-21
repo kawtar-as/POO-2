@@ -36,7 +36,7 @@ public class FinJeu extends AppCompatActivity {
         ec = new Ecouteur();
         rejouer.setOnClickListener(ec);
 
-        text.setText("Vous avez échoué. voici les meilleures score, cliquer sur le bouton pour relancer une partie !");
+        text.setText("LA PARTIE EST FINI !");
     }
     private class Ecouteur implements View.OnClickListener{
 

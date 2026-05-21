@@ -52,7 +52,7 @@ public class GestionBD extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE lexique (ortho TEXT,`phon` TEXT,`lemme` TEXT,`cgram` TEXT,`genre` TEXT,`nombre` TEXT,`freqlemfilms` REAL,`freqlemlivres` REAL,`freqfilms` REAL,`freqlivres` REAL,`infover` TEXT,`nbhomogr` INTEGER,`nbhomoph` INTEGER,`islem` INTEGER,`nblettres` INTEGER,`nbphons` INTEGER,`cvcv` TEXT,`p_cvcv` TEXT,`voisorth` INTEGER,`voisphon` INTEGER,`puorth` INTEGER,`puphon` INTEGER,`syll` TEXT,`nbsyll` INTEGER,`cv_cv` TEXT,`orthrenv` TEXT,`phonrenv` TEXT,`orthosyll` TEXT)");
-        db.execSQL("CREATE TABLE pointage( point INTEGER , date TEXT)");
+        db.execSQL("CREATE TABLE pointage( point INTEGER , date TEXT DEFAULT CURRENT_TIMESTAMP)");
 
         try {
             executerFichier(db, R.raw.data);
@@ -73,14 +73,13 @@ public class GestionBD extends SQLiteOpenHelper {
         c.close();
         return rep;
     }
+
     public void ajouterPointage(Pointage p ){
         ContentValues cv = new ContentValues();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        String dateString = sdf.format(new Date());
-
-
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+//        String dateString = sdf.format(new Date());
         cv.put("point", p.getPoint());
-        cv.put("date", sdf.format(p.getDate()));
+        cv.put("date", p.getDate());
         database.insert("pointage", null, cv);
 
     }

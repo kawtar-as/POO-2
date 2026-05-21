@@ -17,7 +17,6 @@
         android:layout_weight="2"
         android:gravity="center"
         android:padding="10dp"
-        android:text="TextView"
         android:textSize="20sp" />
 
     <ListView

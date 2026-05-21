@@ -5,8 +5,7 @@ public class Pointage {
         private String date;
         private int point;
 
-    public Pointage(String date, int point) {
-        this.date = date;
+    public Pointage( int point) {
         this.point = point;
     }
 

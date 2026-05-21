@@ -1,5 +1,6 @@
 package com.kawtar.tp2;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -37,7 +38,7 @@ public class Jeu extends AppCompatActivity {
     GestionBD instance;
     ArrayList<String> motTrouve;
     Mot m;
-
+    int total = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,7 +116,6 @@ public class Jeu extends AppCompatActivity {
                     m.ajouterLettres(lettreNow );
                     mot += c.getLettre().getText();
                     word.setText(mot);
-                    pointchacun.setText(String.valueOf(lettreNow.getValeur()));
                     break;
                 case DragEvent.ACTION_DROP:
                     if(motTrouve.contains(mot)){
@@ -128,8 +128,9 @@ public class Jeu extends AppCompatActivity {
                          remarque.setTextColor(Color.GREEN);
                          remarque.setText("Vous avez trouvé un mot");
 //                        word.setTextColor(Color.GREEN);
-                         pointTotal.setText(String.valueOf(m.sommeValeur()));
-
+                         total += m.sommeValeur();
+                         pointchacun.setText(String.valueOf(m.sommeValeur()));
+                         pointTotal.setText(" Score : "+ total);
 
                     }
 
@@ -143,11 +144,14 @@ public class Jeu extends AppCompatActivity {
                     source.setBackground(normal);
                     mot = "";
                     word.setText(mot);
+
                     break;
 
             }
+
             return true;
         }
+
 
 
 
@@ -206,9 +210,11 @@ public class Jeu extends AppCompatActivity {
 
         @Override
         public void onFinish() {
+            instance.ajouterPointage(new Pointage(total));
             seekBar.setProgress(0);
             i = new Intent(Jeu.this, FinJeu.class);
             startActivity(i);
+
         }
 
     }
