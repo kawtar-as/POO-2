@@ -5,8 +5,9 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F82A2626"
     android:orientation="vertical"
-    tools:context=".MainActivity2">
+    tools:context=".Jeu">
 
     <SeekBar
         android:id="@+id/seekBar"
@@ -179,5 +180,13 @@
         </TableRow>
 
     </TableLayout>
+
+    <TextView
+        android:id="@+id/remarque"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textSize="24sp" />
 
 </LinearLayout>

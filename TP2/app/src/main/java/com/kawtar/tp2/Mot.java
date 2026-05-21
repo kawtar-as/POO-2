@@ -23,6 +23,8 @@ public class Mot {
            if(l.getMultiplicateurMot() > 1)
            {
                bonus = l.getMultiplicateurMot();
+           }else if(l.getMultiplicateur() > 1){
+               bonus = l.getMultiplicateur();
            }
        }
        return  somme * bonus ;

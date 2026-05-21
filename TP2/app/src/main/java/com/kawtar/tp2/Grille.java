@@ -7,10 +7,10 @@ import java.util.Random;
 
 public class Grille {
     // la grillle un tableau double dimension
-     Lettre [][]lettres ;
-    Random random;
-    HashMap <Character, Lettre> hm = new HashMap<>();
-
+    private Lettre [][]lettres ;
+    private Random random;
+    private HashMap <Character, Lettre> hm = new HashMap<>();
+    private int totalPoint;
     public Grille() {
         lettres = new Lettre[4][4];
         this.random = new Random();
@@ -40,7 +40,7 @@ public class Grille {
         hm.put('x',new Lettre('x',5,1));
         hm.put('y',new Lettre('y',5,1));
         hm.put('z',new Lettre('z',5,1));
-
+        this.totalPoint = 0;
     }
 
     // methode pour creer la grille
@@ -82,9 +82,10 @@ public class Grille {
         // double
         for (int i = 0; i< 2; i++){
             int  position =pos.get(i);
-            int ligne = position/4;
-            int colonne = position%4;
+            int ligne = position /4;
+            int colonne = position %4;
             lettres[ligne][colonne].setMultiplicateur(2);
+
 
         }
         //triple
@@ -96,4 +97,7 @@ public class Grille {
         lettres[posMotDouble / 4][posMotDouble % 4].setMultiplicateurMot(2);
     }
 
+    public Lettre[][] getLettres() {
+        return lettres;
+    }
 }

@@ -5,8 +5,9 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F82A2626"
     android:orientation="vertical"
-    tools:context=".MainActivity3">
+    tools:context=".FinJeu">
 
     <TextView
         android:id="@+id/textView3"

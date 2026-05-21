@@ -1,7 +1,5 @@
 package com.kawtar.tp2;
 
-import static android.view.View.INVISIBLE;
-
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -12,7 +10,6 @@ import android.os.CountDownTimer;
 import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TableLayout;
@@ -27,10 +24,10 @@ import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
 
-public class MainActivity2 extends AppCompatActivity {
+public class Jeu extends AppCompatActivity {
 
     SeekBar seekBar;
-    TextView word, pointTotal,pointchacun;
+    TextView word, pointTotal,pointchacun,remarque;
     Ecouteur ec;
     Lettre [][] grille;
     TableLayout grilleJeu;
@@ -40,6 +37,7 @@ public class MainActivity2 extends AppCompatActivity {
     GestionBD instance;
     ArrayList<String> motTrouve;
     Mot m;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +54,7 @@ public class MainActivity2 extends AppCompatActivity {
         seekBar= findViewById(R.id.seekBar);
         grilleJeu = findViewById(R.id.grilleJeu);
         word = findViewById(R.id.mot);
+        remarque = findViewById(R.id.remarque);
         pointchacun = findViewById(R.id.pointnow);
         pointTotal = findViewById(R.id.totalpoint);
         ec = new Ecouteur();
@@ -69,7 +68,7 @@ public class MainActivity2 extends AppCompatActivity {
         m.start();
         Grille g = new Grille();
         g.creerGrille();
-        grille = g.lettres; // lier
+        grille = g.getLettres(); // lier
         g.genererMultiplicateur();
 
         for(int i =0; i < grilleJeu.getChildCount();i++){
@@ -88,8 +87,10 @@ public class MainActivity2 extends AppCompatActivity {
                 }
                 else if(l.getMultiplicateurMot()>1){
                     child2.getMultiplicateur().setText("X"+ l.getMultiplicateurMot());
+
                 }else{
                     child2.getMultiplicateur().setText("x1");
+
                 }
             }
         }
@@ -114,12 +115,28 @@ public class MainActivity2 extends AppCompatActivity {
                     m.ajouterLettres(lettreNow );
                     mot += c.getLettre().getText();
                     word.setText(mot);
+                    pointchacun.setText(String.valueOf(lettreNow.getValeur()));
+                    break;
                 case DragEvent.ACTION_DROP:
-                    if(instance.motExist(mot) && !motTrouve.contains(mot))
+                    if(motTrouve.contains(mot)){
+                        remarque.setTextColor(Color.RED);
+                        remarque.setText("Vous avez déja choisi le mot");
+                    }
+                     else if(instance.motExist(mot)) {
                         System.out.println("existe");
                         motTrouve.add(mot);
-                        pointTotal.setText(String.valueOf(m.sommeValeur()));
+                         remarque.setTextColor(Color.GREEN);
+                         remarque.setText("Vous avez trouvé un mot");
+//                        word.setTextColor(Color.GREEN);
+                         pointTotal.setText(String.valueOf(m.sommeValeur()));
 
+
+                    }
+
+                    else{
+                    remarque.setTextColor(Color.RED);
+                    remarque.setText("Ce mot n'existe pas !");
+                }
                     break;
                     // ici on dooit get la lettre selectiomne et la stocker dans le mot
                 case DragEvent.ACTION_DRAG_ENDED:
@@ -190,7 +207,7 @@ public class MainActivity2 extends AppCompatActivity {
         @Override
         public void onFinish() {
             seekBar.setProgress(0);
-            i = new Intent(MainActivity2.this, MainActivity3.class);
+            i = new Intent(Jeu.this, FinJeu.class);
             startActivity(i);
         }
 
