@@ -16,4 +16,8 @@ public class Pointage {
     public int getPoint() {
         return point;
     }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 }

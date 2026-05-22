@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F82A2626"
+    android:background="#F87B90AD"
     android:orientation="vertical"
     tools:context=".Jeu">
 
@@ -13,7 +13,9 @@
         android:id="@+id/seekBar"
         android:layout_width="match_parent"
         android:layout_height="49dp"
-        android:max="75" />
+        android:background="#AEAAAF"
+        android:max="75"
+        android:progressTint="#C65AE0" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -41,6 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:gravity="center"
+            android:textColor="#FDFFFE"
             android:textSize="24sp" />
 
         <TextView

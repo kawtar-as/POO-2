@@ -44,7 +44,7 @@ public class Jeu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.jeu);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -60,7 +60,6 @@ public class Jeu extends AppCompatActivity {
         pointTotal = findViewById(R.id.totalpoint);
         ec = new Ecouteur();
 
-        seekBar.setOnSeekBarChangeListener(ec);
         seekBar.setMax(75000);
         seekBar.setProgress(75000); // on le set au maximum
 
@@ -95,22 +94,21 @@ public class Jeu extends AppCompatActivity {
                 }
             }
         }
-
-
     }
-    private class Ecouteur implements View.OnTouchListener,View.OnDragListener,SeekBar.OnSeekBarChangeListener{
+    private class Ecouteur implements View.OnTouchListener,View.OnDragListener{
         Drawable selectionne = getResources().getDrawable(R.drawable.background_contenant_selectionne,null);
         Drawable normal = getResources().getDrawable(R.drawable.background_contenant,null);
-
-
         @Override
         public boolean onDrag(View source, DragEvent event) {
             Composante c = (Composante)  source;
             switch(event.getAction()){
                 case DragEvent.ACTION_DRAG_STARTED:
                     m = new Mot();
+                    mot = "";
+                    word.setText(mot);
                     return true;
                 case DragEvent.ACTION_DRAG_ENTERED:
+                    remarque.setText("");
                     source.setBackground(selectionne);
                     Lettre lettreNow =  c.getLettreObjet();
                     m.ajouterLettres(lettreNow );
@@ -121,10 +119,13 @@ public class Jeu extends AppCompatActivity {
                     if(motTrouve.contains(mot)){
                         remarque.setTextColor(Color.RED);
                         remarque.setText("Vous avez déja choisi le mot");
+                        ObjectAnimator oa = ObjectAnimator.ofFloat(word, View.X, word.getX()-20,word.getX()+20,word.getX()-20,word.getX()+20, word.getX(),word.getX());
+                        oa.setDuration(1000);
+                        oa.start();
                     }
                      else if(instance.motExist(mot)) {
                         System.out.println("existe");
-                        motTrouve.add(mot);
+                         motTrouve.add(mot);
                          remarque.setTextColor(Color.GREEN);
                          remarque.setText("Vous avez trouvé un mot");
 //                        word.setTextColor(Color.GREEN);
@@ -135,15 +136,16 @@ public class Jeu extends AppCompatActivity {
                     }
 
                     else{
-                    remarque.setTextColor(Color.RED);
-                    remarque.setText("Ce mot n'existe pas !");
+                    ObjectAnimator oa = ObjectAnimator.ofFloat(word, View.X, word.getX()-20,word.getX()+20,word.getX()-20,word.getX()+20, word.getX(),word.getX());
+                    oa.setDuration(1000);
+                    oa.start();
+
                 }
                     break;
                     // ici on dooit get la lettre selectiomne et la stocker dans le mot
                 case DragEvent.ACTION_DRAG_ENDED:
                     source.setBackground(normal);
-                    mot = "";
-                    word.setText(mot);
+
 
                     break;
 
@@ -152,49 +154,27 @@ public class Jeu extends AppCompatActivity {
             return true;
         }
 
-
-
-
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             ShadowInvisible shadowInvisible = new ShadowInvisible();
             v.startDragAndDrop(null,shadowInvisible,v,0);
             return true;
         }
-
-        @Override
-        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-        }
-
-        @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {
-
-        }
-
-        @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {
-
-        }
     }
     private static class ShadowInvisible extends View.DragShadowBuilder
     {
-
-
         @Override
         public void onProvideShadowMetrics(Point outShadowSize, Point outShadowTouchPoint) {
             // tout petit
             outShadowSize.set(1, 1);
             outShadowTouchPoint.set(0, 0);
         }
-
         @Override
         public void onDrawShadow(Canvas canvas) {
             // rien faire, on ne dessine rien
         }
 
     }
-
 
     private class MonTimer extends CountDownTimer {
 
