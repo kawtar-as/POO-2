@@ -66,11 +66,13 @@ public class Jeu extends AppCompatActivity {
         motTrouve = new ArrayList<>();
         MonTimer m = new MonTimer();
         m.start();
+        // creer la grille
         Grille g = new Grille();
-        g.creerGrille();
+        g.creerGrille(); // les lettres
         grille = g.getLettres(); // lier
         g.genererMultiplicateur();
 
+        // parcours le table Layout
         for(int i =0; i < grilleJeu.getChildCount();i++){
             // faire
             TableRow child = (TableRow) grilleJeu.getChildAt(i); // dans la ligne
@@ -81,14 +83,21 @@ public class Jeu extends AppCompatActivity {
                 Lettre l = grille[i][j];
                 child2.setLettreObjet(l);
                 child2.getLettre().setText(String.valueOf(l.getAlphabet()));
-                child2.getPoint().setText(String.valueOf(l.getValeur())); //  les points
+                child2.getPoint().setText(String.valueOf(l.getValeur()));
                 if(l.getMultiplicateur()>1){
+                    // on met le multiplicateur pour lettre en orange
                     child2.getMultiplicateur().setText("x"+ l.getMultiplicateur());
-                }
-                else if(l.getMultiplicateurMot()>1){
-                    child2.getMultiplicateur().setText("X"+ l.getMultiplicateurMot());
+                    child2.getMultiplicateur().setTextColor(Color.parseColor("#FFB347"));
 
-                }else{
+                }
+                // si c est un multiplicateur de mot on set le text en jaune comme ca on vois qui est de ot et qui de lettre
+                else if(l.getMultiplicateurMot()>1){
+                    child2.getMultiplicateur().setText("x"+ l.getMultiplicateurMot());
+                    child2.getMultiplicateur().setTextColor(Color.YELLOW);
+
+                }
+                else
+                { // quand y pas de mutiplicateur (mutilicateur = 1)
                     child2.getMultiplicateur().setText("x1");
 
                 }
@@ -104,53 +113,48 @@ public class Jeu extends AppCompatActivity {
             switch(event.getAction()){
                 case DragEvent.ACTION_DRAG_STARTED:
                     m = new Mot();
+                    // reinitialiser
                     mot = "";
                     word.setText(mot);
                     return true;
+
                 case DragEvent.ACTION_DRAG_ENTERED:
                     remarque.setText("");
                     source.setBackground(selectionne);
-                    Lettre lettreNow =  c.getLettreObjet();
+                    Lettre lettreNow =  c.getLettreObjet(); // recuperer la lettre
                     m.ajouterLettres(lettreNow );
                     mot += c.getLettre().getText();
                     word.setText(mot);
                     break;
                 case DragEvent.ACTION_DROP:
-                    if(motTrouve.contains(mot)){
+                    if(motTrouve.contains(mot)){ // si le mot existe deja dans la liste
                         remarque.setTextColor(Color.RED);
                         remarque.setText("Vous avez déja choisi le mot");
                         ObjectAnimator oa = ObjectAnimator.ofFloat(word, View.X, word.getX()-20,word.getX()+20,word.getX()-20,word.getX()+20, word.getX(),word.getX());
                         oa.setDuration(1000);
                         oa.start();
                     }
-                     else if(instance.motExist(mot)) {
+                     else if(instance.motExist(mot)) { // si existe dans la base de données
                         System.out.println("existe");
                          motTrouve.add(mot);
                          remarque.setTextColor(Color.GREEN);
                          remarque.setText("Vous avez trouvé un mot");
-//                        word.setTextColor(Color.GREEN);
                          total += m.sommeValeur();
                          pointchacun.setText(String.valueOf(m.sommeValeur()));
                          pointTotal.setText(" Score : "+ total);
 
                     }
-
                     else{
                     ObjectAnimator oa = ObjectAnimator.ofFloat(word, View.X, word.getX()-20,word.getX()+20,word.getX()-20,word.getX()+20, word.getX(),word.getX());
                     oa.setDuration(1000);
                     oa.start();
-
                 }
                     break;
                     // ici on dooit get la lettre selectiomne et la stocker dans le mot
                 case DragEvent.ACTION_DRAG_ENDED:
                     source.setBackground(normal);
-
-
                     break;
-
             }
-
             return true;
         }
 

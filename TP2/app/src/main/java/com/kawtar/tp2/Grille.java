@@ -8,12 +8,13 @@ import java.util.Random;
 public class Grille {
     // la grillle un tableau double dimension
     private Lettre [][]lettres ;
-    private Random random;
+    private Random random; // pour faire les cases random
     private HashMap <Character, Lettre> hm = new HashMap<>();
 
     public Grille() {
         lettres = new Lettre[4][4];
         this.random = new Random();
+        // ajouter les lettres
         hm.put('a',new Lettre('a',1,5));
         hm.put('b',new Lettre('b',1,3));
         hm.put('c',new Lettre('c',1,3));
@@ -46,21 +47,21 @@ public class Grille {
     // methode pour creer la grille
 
     public void creerGrille(){
-       // Lettre[][]  grille = new Lettre[4][4];
-        for (int i = 0; i < lettres.length;i++){ // ligne
 
-            for (int j =0; j < lettres[i].length; j++) { // colonne
+        for (int i = 0; i < lettres.length;i++){ // ligne aléatoire
 
+            for (int j =0; j < lettres[i].length; j++) { // colonne aléatoire
                 lettres[i][j] = choisirRandom();
-                System.out.println(lettres[i][j].getAlphabet());
 
             }
         }
     }
     // methode pour choisir aléatoire lettre
     public Lettre choisirRandom(){
+        // Somme totale des poids
         int poidsTotal = 59;
         int somme =0;
+        // entre 0 et poidstotal -1
         int nombreRandom = random.nextInt(poidsTotal);
         for(Lettre lettre : hm.values()){ // parcourir
             somme += lettre.getPoids();
@@ -74,12 +75,12 @@ public class Grille {
     // methode pour generer multiplicateur dependamenet
     public void genererMultiplicateur(){
         ArrayList<Integer> pos = new ArrayList<>() ; // une arratluist de position de la grille
-        for (int i = 0; i<= 15; i++){
-            pos.add(i); // on ajoute les 16 cases
+        for (int i = 0; i<= 15; i++){ // 16 cases
+            pos.add(i);
         }
         Collections.shuffle(pos); // melanger
 
-        // double
+        // double :2 cases pour multiplicateur double
         for (int i = 0; i< 2; i++){
             int  position =pos.get(i);
             int ligne = position /4;

@@ -22,6 +22,7 @@ public class Interface extends AppCompatActivity {
     Intent i ;
     ArrayList<String> meilleures;
     Button jouer;
+    GestionBD instance;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,16 +34,20 @@ public class Interface extends AppCompatActivity {
             return insets;
         });
         jouer = findViewById(R.id.start);
-        liste = findViewById(R.id.list);
+        liste = findViewById(R.id.list); // du score
+        instance = GestionBD.getInstance(getApplicationContext());
 
-        meilleures = new ArrayList<>();
+        try {
+            meilleures = instance.premierScore();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         ec = new Ecouteur();
         jouer.setOnClickListener(ec);
-
+        //scores dans la ListView
         ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, meilleures);
         liste.setAdapter(adapter);
-
         liste.setOnItemClickListener(ec);
     }
     private class Ecouteur implements View.OnClickListener,AdapterView.OnItemClickListener{

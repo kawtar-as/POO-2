@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class GestionBD extends SQLiteOpenHelper {
-    Context context;
+    private Context context;
     private static GestionBD instance;
     private SQLiteDatabase database;
     public static GestionBD getInstance(Context context){
@@ -53,8 +53,8 @@ public class GestionBD extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE lexique (ortho TEXT,`phon` TEXT,`lemme` TEXT,`cgram` TEXT,`genre` TEXT,`nombre` TEXT,`freqlemfilms` REAL,`freqlemlivres` REAL,`freqfilms` REAL,`freqlivres` REAL,`infover` TEXT,`nbhomogr` INTEGER,`nbhomoph` INTEGER,`islem` INTEGER,`nblettres` INTEGER,`nbphons` INTEGER,`cvcv` TEXT,`p_cvcv` TEXT,`voisorth` INTEGER,`voisphon` INTEGER,`puorth` INTEGER,`puphon` INTEGER,`syll` TEXT,`nbsyll` INTEGER,`cv_cv` TEXT,`orthrenv` TEXT,`phonrenv` TEXT,`orthosyll` TEXT)");
-        db.execSQL("CREATE TABLE pointage( point INTEGER , date TEXT)");
-        // DEFAULT CURRENT_TIMESTAMP
+        db.execSQL("CREATE TABLE pointage( point INTEGER , date TEXT)"); // liste des pointage avec la date et le temps
+
         try {
             executerFichier(db, R.raw.data);
         }catch (IOException e){
@@ -88,11 +88,20 @@ public class GestionBD extends SQLiteOpenHelper {
 
     public ArrayList<String> meilleurePointage(){
         ArrayList<String> listePointages = new ArrayList<>();
-        Cursor cursor = database.rawQuery("SELECT * FROM pointage ORDER BY point DESC",null);
+        Cursor cursor = database.rawQuery("SELECT * FROM pointage ORDER BY point DESC",null); //  trie du plus grand avec la date
         while(cursor.moveToNext()){
             listePointages.add(cursor.getString(0)+ " ---------------------- "+cursor.getString(1));
         }
         cursor.close();
         return listePointages;
+    }
+    public ArrayList<String>  premierScore(){  // meilleur score seulement
+        ArrayList<String> liste = new ArrayList<>();
+        Cursor cursor = database.rawQuery("SELECT * FROM pointage ORDER BY point DESC LIMIT 1 ",null);
+        while(cursor.moveToNext()){
+            liste.add("Meilleur score : "+ cursor.getString(0));
+        }
+        cursor.close();
+        return liste;
     }
 }

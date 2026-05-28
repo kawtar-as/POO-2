@@ -15,18 +15,24 @@ public class Mot {
         this.lettres.add(l);
     }
     public int sommeValeur( ){
-        int somme = 0, bonus = 1;
+        int somme = 0, bonusMot = 1;
 
        for(Lettre l : lettres){
-           somme += l.getValeur();
-
-           if(l.getMultiplicateurMot() > 1)
+           int valeurLettre = l.getValeur(); // valeur de la lettre
+            // verification des multiplicateurs
+           if(l.getMultiplicateur() > 1)
            {
-               bonus = l.getMultiplicateurMot();
-           }else if(l.getMultiplicateur() > 1){
-               bonus = l.getMultiplicateur();
+               somme +=  valeurLettre *  l.getMultiplicateur();
+           }
+           else{
+               somme +=valeurLettre;
+           }
+
+           if(l.getMultiplicateurMot() > 1){
+               bonusMot = l.getMultiplicateurMot();
            }
        }
-       return  somme * bonus ;
+
+       return somme * bonusMot ;
     }
 }
